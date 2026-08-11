@@ -1,0 +1,85 @@
+Rows: 3232, Wells: 8
+
+--- BASELINE (calibrated single XGBoost) ---
+Accuracy: 0.5068   Adjacent-facies accuracy: 0.8651
+ facies  precision   recall       f1  support
+      1   0.289474 0.169884 0.214112      259
+      2   0.510932 0.601626 0.552582      738
+      3   0.596059 0.590244 0.593137      615
+      4   0.564972 0.543478 0.554017      184
+      5   0.244444 0.152074 0.187500      217
+      6   0.435606 0.497835 0.464646      462
+      7   0.413333 0.316327 0.358382       98
+      8   0.547325 0.534137 0.540650      498
+      9   0.631841 0.788820 0.701657      161
+
+--- RE-VALIDATED: HMM/Viterbi smoothing (real XGBoost) ---
+Accuracy: 0.5266   Adjacent-facies accuracy: 0.8784
+ facies  precision   recall       f1  support
+      1   0.350000 0.135135 0.194986      259
+      2   0.516230 0.668022 0.582398      738
+      3   0.607266 0.570732 0.588433      615
+      4   0.598684 0.494565 0.541667      184
+      5   0.240964 0.092166 0.133333      217
+      6   0.455312 0.584416 0.511848      462
+      7   0.396825 0.255102 0.310559       98
+      8   0.551527 0.580321 0.565558      498
+      9   0.695652 0.795031 0.742029      161
+
+Rows where base model's top-1 prediction was facies 8 or 9: 687
+
+--- RE-VALIDATED: Cascade specialist (real XGBoost) ---
+Accuracy: 0.4947   Adjacent-facies accuracy: 0.8651
+ facies  precision   recall       f1  support
+      1   0.289474 0.169884 0.214112      259
+      2   0.510932 0.601626 0.552582      738
+      3   0.596059 0.590244 0.593137      615
+      4   0.564972 0.543478 0.554017      184
+      5   0.244444 0.152074 0.187500      217
+      6   0.435606 0.497835 0.464646      462
+      7   0.413333 0.316327 0.358382       98
+      8   0.521830 0.504016 0.512768      498
+      9   0.500000 0.639752 0.561308      161
+
+--- RE-VALIDATED: Depth-window rolling features (real XGBoost) ---
+Accuracy: 0.4978   Adjacent-facies accuracy: 0.8691
+ facies  precision   recall       f1  support
+      1   0.318519 0.166023 0.218274      259
+      2   0.493771 0.590786 0.537940      738
+      3   0.578333 0.564228 0.571193      615
+      4   0.492537 0.538043 0.514286      184
+      5   0.225000 0.124424 0.160237      217
+      6   0.442777 0.510823 0.474372      462
+      7   0.475410 0.295918 0.364780       98
+      8   0.539806 0.558233 0.548865      498
+      9   0.619565 0.708075 0.660870      161
+
+======================================================================
+FINAL SUMMARY: All mechanisms re-validated with real XGBoost
+======================================================================
+                         mechanism  accuracy  adjacent_accuracy
+Baseline (calibrated single model)  0.506807           0.865099
+             HMM/Viterbi smoothing  0.526609           0.878403
+                Cascade specialist  0.494740           0.865099
+     Depth-window rolling features  0.497834           0.869121
+
+Per-facies recall comparison:
+ facies  baseline      hmm  cascade  rolling
+      1  0.169884 0.135135 0.169884 0.166023
+      2  0.601626 0.668022 0.601626 0.590786
+      3  0.590244 0.570732 0.590244 0.564228
+      4  0.543478 0.494565 0.543478 0.538043
+      5  0.152074 0.092166 0.152074 0.124424
+      6  0.497835 0.584416 0.497835 0.510823
+      7  0.316327 0.255102 0.316327 0.295918
+      8  0.534137 0.580321 0.504016 0.558233
+      9  0.788820 0.795031 0.639752 0.708075
+
+NOTE: this changes the manuscript diagnosis for HMM/Viterbi -- it now
+nets a real improvement over baseline (+2.0pt accuracy, +1.3pt adjacent
+accuracy) with real XGBoost, unlike the RandomForest-based preliminary
+run. Cascade specialist and depth-window features both confirm as net
+negative, consistent with the preliminary result. The Section 4
+diagnosis-table entry for facies 8 ("cascade specialist + HMM smoothing
+tested, no improvement found") needs the HMM half rewritten -- it did
+improve, at the cost of further-depressed recall on facies 1 and 5.
