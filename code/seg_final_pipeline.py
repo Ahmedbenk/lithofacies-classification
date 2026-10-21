@@ -3,10 +3,11 @@ SEG/Hall 2016 Hugoton-Panoma facies dataset -- FINAL pipeline.
 
 Settled methodology, after testing four hybrid mechanisms (NN stacking,
 HMM/Viterbi sequence smoothing, cascade binary specialist, depth-window
-rolling features) -- none beat a well-calibrated single XGBoost model.
-The final approach is: single XGBoost, dampened (sqrt) class weighting,
+rolling features) -- three did not beat a well-calibrated single XGBoost model; HMM/Viterbi
+smoothing did overall but lowered recall on the weakest facies (see
+revalidation/). The final approach is: single XGBoost, dampened (sqrt) class weighting,
 diagnosed and reported per-class rather than forcing a hybrid fix where
-none was found to help.
+it was not found to help the weak classes.
 
 Paste each # %% CELL block into its own Colab cell, in order.
 """
@@ -65,7 +66,7 @@ DIAGNOSIS = {
     5: "Resolved-to-limit: dampened weighting + depth-window features tested, no improvement found",
     6: "Adequate baseline performance",
     7: "Adequate baseline performance, benefits from dampened weighting",
-    8: "Resolved-to-limit: adjacency to facies 9; cascade specialist + HMM smoothing tested, no improvement found",
+    8: "Resolved-to-limit: adjacency to facies 9; cascade specialist tested, no improvement found; HMM smoothing improved overall accuracy but lowered weak-facies recall",
     9: "Adjacency-limited: dampened weighting partially recovers recall vs. naive full-balanced weighting",
 }
 
