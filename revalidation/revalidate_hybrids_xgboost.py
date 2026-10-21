@@ -3,10 +3,9 @@ Re-validation of three preliminary hybrid mechanisms with the REAL
 production model (XGBoost), replacing the RandomForest stand-in used
 during initial exploratory testing.
 
-This directly addresses the "Document status" caveat in the AIG-format
-manuscript draft: NN-stacking was already validated with the real
-pipeline; HMM smoothing, the cascade specialist, and depth-window
-features were not. This script fixes that gap.
+NN-stacking is evaluated in code/lithology_hybrid_pipeline.py; this script evaluates the
+other three mechanisms (HMM/Viterbi smoothing, cascade specialist, depth-window
+features) with XGBoost.
 
 Methodology matches the settled SEG pipeline exactly: leave-one-well-out
 CV, dampened (sqrt) class weighting, same 7 base features, same
