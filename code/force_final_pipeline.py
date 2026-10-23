@@ -1,1 +1,175 @@
-IiIiCkZPUkNFIDIwMjAgbGl0aG9sb2d5IGRhdGFzZXQgLS0gRklOQUwgcGlwZWxpbmUuCgpTZXR0bGVkIG1ldGhvZG9sb2d5OiBzaW5nbGUgWEdCb29zdCwgZGFtcGVuZWQgKHNxcnQpIGNsYXNzIHdlaWdodGluZywKZmVhdHVyZSBzZXQgaW5jbHVkZXMgUEVGIChjb25maXJtZWQgdG8gaGVscCBDaGFsay9Bbmh5ZHJpdGUvTGltZXN0b25lKQpidXQgZXhjbHVkZXMgTlBISSAodGVzdGVkLCBtYWRlIHRoaW5ncyB3b3JzZSkgYW5kIHRoZSA+NTAlLW1pc3NpbmcgbG9ncy4KQmFzZW1lbnQgaXMgZXhjbHVkZWQgZnJvbSBldmFsdWF0aW9uIChjb25maW5lZCB0byAxIG9mIDk4IHdlbGxzIC0tCnN0cnVjdHVyYWxseSBpbXBvc3NpYmxlIHRvIGNyb3NzLXZhbGlkYXRlIGZhaXJseSkuIFBlci1jbGFzcyByZXN1bHRzIGFyZQpyZXBvcnRlZCB3aXRoIGFuIGV4cGxpY2l0IGRpYWdub3NpcyBjYXRlZ29yeSwgc2FtZSBhcyB0aGUgU0VHIHBpcGVsaW5lLgoKUGFzdGUgZWFjaCAjICUlIENFTEwgYmxvY2sgaW50byBpdHMgb3duIENvbGFiIGNlbGwsIGluIG9yZGVyLgoiIiIKCiMgJSUgQ0VMTCAxOiBNb3VudCBEcml2ZSBhbmQgbG9hZCB0cmFpbmluZyBkYXRhCmZyb20gZ29vZ2xlLmNvbGFiIGltcG9ydCBkcml2ZQpkcml2ZS5tb3VudCgnL2NvbnRlbnQvZHJpdmUnKQoKaW1wb3J0IHBhbmRhcyBhcyBwZAoKVFJBSU5fUEFUSCA9ICcvY29udGVudC9kcml2ZS9NeURyaXZlL3RyYWluLmNzdicKZGYgPSBwZC5yZWFkX2NzdihUUkFJTl9QQVRILCBzZXA9JzsnKQpwcmludChmIlNoYXBlOiB7ZGYuc2hhcGV9LCBXZWxsczoge2RmWydXRUxMJ10ubnVuaXF1ZSgpfSIpCgoKIyAlJSBDRUxMIDI6IEltcG9ydHMKaW1wb3J0IG51bXB5IGFzIG5wCmZyb20gc2tsZWFybi5tb2RlbF9zZWxlY3Rpb24gaW1wb3J0IFN0cmF0aWZpZWRHcm91cEtGb2xkCmZyb20gc2tsZWFybi5pbXB1dGUgaW1wb3J0IFNpbXBsZUltcHV0ZXIKZnJvbSBza2xlYXJuLnV0aWxzLmNsYXNzX3dlaWdodCBpbXBvcnQgY29tcHV0ZV9zYW1wbGVfd2VpZ2h0CmZyb20gc2tsZWFybi5tZXRyaWNzIGltcG9ydCBwcmVjaXNpb25fcmVjYWxsX2ZzY29yZV9zdXBwb3J0LCBhY2N1cmFjeV9zY29yZSwgY29uZnVzaW9uX21hdHJpeAppbXBvcnQgeGdib29zdCBhcyB4Z2IKClJBTkRPTV9TVEFURSA9IDQyCm5wLnJhbmRvbS5zZWVkKFJBTkRPTV9TVEFURSkKCgojICUlIENFTEwgMzogU2V0dGxlZCBmZWF0dXJlIHNldCAoUEVGIGluY2x1ZGVkLCBOUEhJIGV4Y2x1ZGVkIHBlciB0ZXN0aW5nKQpGRUFUVVJFUyA9IFsnR1InLCAnUkRFUCcsICdSTUVEJywgJ1JIT0InLCAnRFJITycsICdEVEMnLCAnQ0FMSScsICdQRUYnXQpwcmludCgiTWlzc2luZ25lc3Mgb2YgZmluYWwgZmVhdHVyZSBzZXQ6IikKcHJpbnQoZGZbRkVBVFVSRVNdLmlzbnVsbCgpLm1lYW4oKS5yb3VuZCgzKSkKCgojICUlIENFTEwgNDogTGFiZWwgZW5jb2RpbmcsIGRpYWdub3NpcyBjYXRlZ29yaWVzLCBhbmQgZXZhbHVhdGlvbiBoZWxwZXIKTElUSE9MT0dZX05VTUJFUlMgPSB7CiAgICAzMDAwMDogJ1NhbmRzdG9uZScsIDY1MDMwOiAnU2FuZHN0b25lL1NoYWxlJywgNjUwMDA6ICdTaGFsZScsCiAgICA4MDAwMDogJ01hcmwnLCA3NDAwMDogJ0RvbG9taXRlJywgNzAwMDA6ICdMaW1lc3RvbmUnLAogICAgNzAwMzI6ICdDaGFsaycsIDg4MDAwOiAnSGFsaXRlJywgODYwMDA6ICdBbmh5ZHJpdGUnLAogICAgOTkwMDA6ICdUdWZmJywgOTAwMDA6ICdDb2FsJywgOTMwMDA6ICdCYXNlbWVudCcKfQpDTEFTU19OQU1FUyA9IGxpc3QoTElUSE9MT0dZX05VTUJFUlMudmFsdWVzKCkpCkNMQVNTX1RPX0lEWCA9IHtuYW1lOiBpIGZvciBpLCBuYW1lIGluIGVudW1lcmF0ZShDTEFTU19OQU1FUyl9Ck5fQ0xBU1NFUyA9IGxlbihDTEFTU19OQU1FUykKCiMgRGlhZ25vc2lzIGNhdGVnb3J5IHBlciBjbGFzcywgZnJvbSB0aGUgZGlhZ25vc3RpYyB3b3JrIGFscmVhZHkgZG9uZSBvbgojIHRoaXMgZGF0YXNldCAoZGFtcGVuZWQtd2VpZ2h0aW5nIHRlc3QsIFBFRi1pbmNsdXNpb24gdGVzdCwgTlBISSB0ZXN0KS4KRElBR05PU0lTID0gewogICAgJ1NhbmRzdG9uZSc6ICdBZGVxdWF0ZSBiYXNlbGluZSBwZXJmb3JtYW5jZScsCiAgICAnU2FuZHN0b25lL1NoYWxlJzogJ1BlcnNpc3RlbnRseSB3ZWFrIHByZWNpc2lvbi9yZWNhbGw7IGxpa2VseSBhIGdlbnVpbmVseSBhbWJpZ3VvdXMgbWl4ZWQtbGl0aG9sb2d5IGNsYXNzIHJhdGhlciB0aGFuIGEgbW9kZWxpbmcgZmFpbHVyZScsCiAgICAnU2hhbGUnOiAnQWRlcXVhdGUgYmFzZWxpbmUgcGVyZm9ybWFuY2UgKG1ham9yaXR5IGNsYXNzKScsCiAgICAnTWFybCc6ICdBZGVxdWF0ZSBiYXNlbGluZSBwZXJmb3JtYW5jZSwgYmVuZWZpdHMgbW9kZXN0bHkgZnJvbSBQRUYnLAogICAgJ0RvbG9taXRlJzogJ1Jlc29sdmVkLXRvLWxpbWl0OiBkYW1wZW5lZCB3ZWlnaHRpbmcsIFBFRiwgYW5kIE5QSEkgYWxsIHRlc3RlZCwgbm8gbWVhbmluZ2Z1bCBpbXByb3ZlbWVudCBmb3VuZCcsCiAgICAnTGltZXN0b25lJzogJ0ZlYXR1cmUtZml4ZWQ6IFBFRiBpbmNsdXNpb24gaW1wcm92ZWQgRjEnLAogICAgJ0NoYWxrJzogJ0ZlYXR1cmUtZml4ZWQ6IFBFRiBpbmNsdXNpb24gaW1wcm92ZWQgRjEgc3Vic3RhbnRpYWxseScsCiAgICAnSGFsaXRlJzogJ0xvdyBmb2xkLWNvdmVyYWdlIChwcmVzZW50IGluIG9ubHkgMyB3ZWxscykgLS0gaGlnaCBwcmVjaXNpb24gYnV0IGxpbWl0ZWQgcmVsaWFiaWxpdHknLAogICAgJ0FuaHlkcml0ZSc6ICdGZWF0dXJlLWZpeGVkOiBQRUYgaW5jbHVzaW9uIGltcHJvdmVkIEYxOyBsb3cgZm9sZC1jb3ZlcmFnZSAoNiB3ZWxscykgY2F2ZWF0IGFwcGxpZXMnLAogICAgJ1R1ZmYnOiAnQWRlcXVhdGUgYmFzZWxpbmUgcGVyZm9ybWFuY2UsIGJlbmVmaXRzIG1vZGVzdGx5IGZyb20gUEVGJywKICAgICdDb2FsJzogJ0FkZXF1YXRlIGJhc2VsaW5lIHBlcmZvcm1hbmNlJywKICAgICdCYXNlbWVudCc6ICdFWENMVURFRCBmcm9tIGV2YWx1YXRpb246IGNvbmZpbmVkIHRvIDEgb2YgOTggd2VsbHMsIGNhbm5vdCBiZSBmYWlybHkgY3Jvc3MtdmFsaWRhdGVkIHVuZGVyIGFueSB3ZWxsLWJhc2VkIHNwbGl0JywKfQoKZGZbJ0xJVEhfTkFNRSddID0gZGZbJ0ZPUkNFXzIwMjBfTElUSE9GQUNJRVNfTElUSE9MT0dZJ10ubWFwKExJVEhPTE9HWV9OVU1CRVJTKQpkZlsnTElUSF9JRFgnXSA9IGRmWydMSVRIX05BTUUnXS5tYXAoQ0xBU1NfVE9fSURYKQoKWCA9IGRmW0ZFQVRVUkVTXQp5ID0gZGZbJ0xJVEhfSURYJ10KZ3JvdXBzID0gZGZbJ1dFTEwnXQoKcHJpbnQoZiJSb3dzOiB7bGVuKGRmKX0sIENsYXNzZXM6IHtOX0NMQVNTRVN9LCBXZWxsczoge2dyb3Vwcy5udW5pcXVlKCl9IikKCgpkZWYgcGVyX2NsYXNzX3JlcG9ydCh5X3RydWVfaWR4LCB5X3ByZWRfaWR4LCBmb2xkX3ByZXNlbmNlPU5vbmUsIGxhYmVsPSIiKToKICAgICIiIlBvb2xlZCBwZXItY2xhc3MgcHJlY2lzaW9uL3JlY2FsbC9GMSwgYW5ub3RhdGVkIHdpdGggZGlhZ25vc2lzCiAgICBjYXRlZ29yeSBhbmQgKGlmIHByb3ZpZGVkKSBmb2xkLXByZXNlbmNlL3dlbGwtY291bnQgcmVsaWFiaWxpdHkgaW5mby4iIiIKICAgIHByZWMsIHJlYywgZjEsIHN1cHBvcnQgPSBwcmVjaXNpb25fcmVjYWxsX2ZzY29yZV9zdXBwb3J0KAogICAgICAgIHlfdHJ1ZV9pZHgsIHlfcHJlZF9pZHgsIGxhYmVscz1yYW5nZShOX0NMQVNTRVMpLCB6ZXJvX2RpdmlzaW9uPTAKICAgICkKICAgIHJlcG9ydF9kZiA9IHBkLkRhdGFGcmFtZSh7CiAgICAgICAgJ2NsYXNzJzogQ0xBU1NfTkFNRVMsICdwcmVjaXNpb24nOiBwcmVjLCAncmVjYWxsJzogcmVjLAogICAgICAgICdmMSc6IGYxLCAnc3VwcG9ydCc6IHN1cHBvcnQsCiAgICB9KQogICAgcmVwb3J0X2RmWydkaWFnbm9zaXMnXSA9IHJlcG9ydF9kZlsnY2xhc3MnXS5tYXAoRElBR05PU0lTKQoKICAgIGlmIGZvbGRfcHJlc2VuY2UgaXMgbm90IE5vbmU6CiAgICAgICAgcmVwb3J0X2RmWyduX2ZvbGRzX3ByZXNlbnQnXSA9IFsoZm9sZF9wcmVzZW5jZVs6LCBjXSA+IDApLnN1bSgpIGZvciBjIGluIHJhbmdlKE5fQ0xBU1NFUyldCgogICAgYWNjID0gYWNjdXJhY3lfc2NvcmUoeV90cnVlX2lkeCwgeV9wcmVkX2lkeCkKICAgIHByaW50KGYiXG4tLS0ge2xhYmVsfSAtLS0iKQogICAgcHJpbnQoZiJPdmVyYWxsIGFjY3VyYWN5OiB7YWNjOi40Zn0iKQogICAgcHJpbnQocmVwb3J0X2RmLnRvX3N0cmluZyhpbmRleD1GYWxzZSkpCiAgICByZXR1cm4geydhY2N1cmFjeSc6IGFjYywgJ3JlcG9ydCc6IHJlcG9ydF9kZn0KCgojICUlIENFTEwgNTogQ1YgZXZhbHVhdGlvbiBvZiB0aGUgZmluYWwgc2luZ2xlLW1vZGVsIGFwcHJvYWNoCk5fU1BMSVRTID0gMTAKc2drZiA9IFN0cmF0aWZpZWRHcm91cEtGb2xkKG5fc3BsaXRzPU5fU1BMSVRTLCBzaHVmZmxlPVRydWUsIHJhbmRvbV9zdGF0ZT1SQU5ET01fU1RBVEUpCgpmb2xkX3ByZXNlbmNlID0gbnAuemVyb3MoKE5fU1BMSVRTLCBOX0NMQVNTRVMpLCBkdHlwZT1pbnQpCm9vZl9wcmVkID0gbnAuZnVsbChsZW4oeSksIC0xLCBkdHlwZT1pbnQpCgpmb3IgZm9sZF9pLCAodHJhaW5faWR4LCB0ZXN0X2lkeCkgaW4gZW51bWVyYXRlKHNna2Yuc3BsaXQoWCwgeSwgZ3JvdXBzPWdyb3Vwcykpg===
+"""
+FORCE 2020 lithology dataset -- FINAL pipeline.
+
+Settled methodology: single XGBoost, dampened (sqrt) class weighting,
+feature set includes PEF (confirmed to help Chalk/Anhydrite/Limestone)
+but excludes NPHI (tested, made things worse) and the >50%-missing logs.
+Basement is excluded from evaluation (confined to 1 of 98 wells --
+structurally impossible to cross-validate fairly). Per-class results are
+reported with an explicit diagnosis category, same as the SEG pipeline.
+
+Paste each # %% CELL block into its own Colab cell, in order.
+"""
+
+# %% CELL 1: Mount Drive and load training data
+from google.colab import drive
+drive.mount('/content/drive')
+
+import pandas as pd
+
+TRAIN_PATH = '/content/drive/MyDrive/train.csv'
+df = pd.read_csv(TRAIN_PATH, sep=';')
+print(f"Shape: {df.shape}, Wells: {df['WELL'].nunique()}")
+
+
+# %% CELL 2: Imports
+import numpy as np
+from sklearn.model_selection import StratifiedGroupKFold
+from sklearn.impute import SimpleImputer
+from sklearn.utils.class_weight import compute_sample_weight
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score, confusion_matrix
+import xgboost as xgb
+
+RANDOM_STATE = 42
+np.random.seed(RANDOM_STATE)
+
+
+# %% CELL 3: Settled feature set (PEF included, NPHI excluded per testing)
+FEATURES = ['GR', 'RDEP', 'RMED', 'RHOB', 'DRHO', 'DTC', 'CALI', 'PEF']
+print("Missingness of final feature set:")
+print(df[FEATURES].isnull().mean().round(3))
+
+
+# %% CELL 4: Label encoding, diagnosis categories, and evaluation helper
+LITHOLOGY_NUMBERS = {
+    30000: 'Sandstone', 65030: 'Sandstone/Shale', 65000: 'Shale',
+    80000: 'Marl', 74000: 'Dolomite', 70000: 'Limestone',
+    70032: 'Chalk', 88000: 'Halite', 86000: 'Anhydrite',
+    99000: 'Tuff', 90000: 'Coal', 93000: 'Basement'
+}
+CLASS_NAMES = list(LITHOLOGY_NUMBERS.values())
+CLASS_TO_IDX = {name: i for i, name in enumerate(CLASS_NAMES)}
+N_CLASSES = len(CLASS_NAMES)
+
+# Diagnosis category per class, from the diagnostic work already done on
+# this dataset (dampened-weighting test, PEF-inclusion test, NPHI test).
+DIAGNOSIS = {
+    'Sandstone': 'Adequate baseline performance',
+    'Sandstone/Shale': 'Persistently weak precision/recall; likely a genuinely ambiguous mixed-lithology class rather than a modeling failure',
+    'Shale': 'Adequate baseline performance (majority class)',
+    'Marl': 'Adequate baseline performance, benefits modestly from PEF',
+    'Dolomite': 'Resolved-to-limit: dampened weighting, PEF, and NPHI all tested, no meaningful improvement found',
+    'Limestone': 'Feature-fixed: PEF inclusion improved F1',
+    'Chalk': 'Feature-fixed: PEF inclusion improved F1 substantially',
+    'Halite': 'Low fold-coverage (present in only 3 wells) -- high precision but limited reliability',
+    'Anhydrite': 'Feature-fixed: PEF inclusion improved F1; low fold-coverage (6 wells) caveat applies',
+    'Tuff': 'Adequate baseline performance, benefits modestly from PEF',
+    'Coal': 'Adequate baseline performance',
+    'Basement': 'EXCLUDED from evaluation: confined to 1 of 98 wells, cannot be fairly cross-validated under any well-based split',
+}
+
+df['LITH_NAME'] = df['FORCE_2020_LITHOFACIES_LITHOLOGY'].map(LITHOLOGY_NUMBERS)
+df['LITH_IDX'] = df['LITH_NAME'].map(CLASS_TO_IDX)
+
+X = df[FEATURES]
+y = df['LITH_IDX']
+groups = df['WELL']
+
+print(f"Rows: {len(df)}, Classes: {N_CLASSES}, Wells: {groups.nunique()}")
+
+
+def per_class_report(y_true_idx, y_pred_idx, fold_presence=None, label=""):
+    """Pooled per-class precision/recall/F1, annotated with diagnosis
+    category and (if provided) fold-presence/well-count reliability info."""
+    prec, rec, f1, support = precision_recall_fscore_support(
+        y_true_idx, y_pred_idx, labels=range(N_CLASSES), zero_division=0
+    )
+    report_df = pd.DataFrame({
+        'class': CLASS_NAMES, 'precision': prec, 'recall': rec,
+        'f1': f1, 'support': support,
+    })
+    report_df['diagnosis'] = report_df['class'].map(DIAGNOSIS)
+
+    if fold_presence is not None:
+        report_df['n_folds_present'] = [(fold_presence[:, c] > 0).sum() for c in range(N_CLASSES)]
+
+    acc = accuracy_score(y_true_idx, y_pred_idx)
+    print(f"\n--- {label} ---")
+    print(f"Overall accuracy: {acc:.4f}")
+    print(report_df.to_string(index=False))
+    return {'accuracy': acc, 'report': report_df}
+
+
+# %% CELL 5: CV evaluation of the final single-model approach
+N_SPLITS = 10
+sgkf = StratifiedGroupKFold(n_splits=N_SPLITS, shuffle=True, random_state=RANDOM_STATE)
+
+fold_presence = np.zeros((N_SPLITS, N_CLASSES), dtype=int)
+oof_pred = np.full(len(y), -1, dtype=int)
+
+for fold_i, (train_idx, test_idx) in enumerate(sgkf.split(X, y, groups=groups)):
+    y_test = y.iloc[test_idx]
+    for c in range(N_CLASSES):
+        fold_presence[fold_i, c] = (y_test == c).sum()
+
+    X_tr, X_te = X.iloc[train_idx], X.iloc[test_idx]
+    y_tr = y.iloc[train_idx]
+
+    imputer = SimpleImputer(strategy='median')
+    X_tr_imp = imputer.fit_transform(X_tr)
+    X_te_imp = imputer.transform(X_te)
+
+    sw = np.sqrt(compute_sample_weight('balanced', y_tr))
+    clf = xgb.XGBClassifier(
+        n_estimators=300, max_depth=6, learning_rate=0.1,
+        random_state=RANDOM_STATE, eval_metric='mlogloss', tree_method='hist'
+    )
+    clf.fit(X_tr_imp, y_tr, sample_weight=sw)
+    oof_pred[test_idx] = clf.predict(X_te_imp)
+
+    print(f"Fold {fold_i}: train wells={groups.iloc[train_idx].nunique()}, "
+          f"test wells={groups.iloc[test_idx].nunique()}, test rows={len(test_idx)}")
+
+assert (oof_pred >= 0).all(), "Some rows never got predicted -- check fold coverage."
+
+cv_results = per_class_report(y, oof_pred, fold_presence=fold_presence,
+                                label="Final model -- StratifiedGroupKFold cross-validation")
+
+
+# %% CELL 6: Final retrain on all 98 wells
+imputer_final = SimpleImputer(strategy='median')
+X_imp_final = imputer_final.fit_transform(X)
+
+sw_full = np.sqrt(compute_sample_weight('balanced', y))
+final_clf = xgb.XGBClassifier(
+    n_estimators=300, max_depth=6, learning_rate=0.1,
+    random_state=RANDOM_STATE, eval_metric='mlogloss', tree_method='hist'
+)
+final_clf.fit(X_imp_final, y, sample_weight=sw_full)
+print("Final model retrained on all 98 wells.")
+
+
+# %% CELL 7a: INSPECT the leaderboard blind-test files before assuming structure
+# We haven't seen these files' actual column names yet -- check before
+# writing merge/alignment logic, since the SEG blind files had real
+# naming mismatches (WellName vs Well Name, Depth.ft vs Depth) that
+# would have caused silent bugs if assumed rather than verified.
+LEADERBOARD_FEATURES_PATH = '/content/drive/MyDrive/leaderboard_test_features.csv'
+LEADERBOARD_TARGET_PATH = '/content/drive/MyDrive/leaderboard_test_target.csv'
+
+lb_features = pd.read_csv(LEADERBOARD_FEATURES_PATH, sep=';')
+lb_target = pd.read_csv(LEADERBOARD_TARGET_PATH, sep=';')
+
+print("=== leaderboard_test_features.csv ===")
+print(f"Shape: {lb_features.shape}")
+print(f"Columns: {lb_features.columns.tolist()}")
+print(lb_features.head(3))
+
+print("\n=== leaderboard_test_target.csv ===")
+print(f"Shape: {lb_target.shape}")
+print(f"Columns: {lb_target.columns.tolist()}")
+print(lb_target.head(3))
+
+# STOP HERE and check the printed columns before running Cell 7b --
+# the alignment/merge code in 7b will need to match whatever these
+# actually are.
