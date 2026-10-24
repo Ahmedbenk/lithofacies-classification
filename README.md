@@ -10,15 +10,15 @@ The paper tests a calibrated single-model XGBoost baseline, four hybrid mechanis
 |---|---|---|
 | `code/seg_final_pipeline.py` | SEG baseline: leave-one-well-out CV and blind-well scoring (STUART, CRAWFORD) | Sec. 4.1 |
 | `code/lithology_hybrid_pipeline.py` | XGBoost + neural-network stacking hybrid | Sec. 2.4 |
-| `revalidation/revalidate_hybrids_xgboost.py` | Re-test of HMM/Viterbi, cascade specialist and depth-window features with real XGBoost | Sec. 2.4 |
-| `code/force_final_pipeline.py` | FORCE 2020 baseline, PEF/NPHI tests, blind-set scoring | Sec. 4.2 |
+| `revalidation/revalidate_hybrids_xgboost.py` | HMM/Viterbi, cascade specialist and depth-window features, tested with XGBoost (output in `revalidation/`) | Sec. 2.4 |
+| `code/force_final_pipeline.py` | FORCE 2020 final model (PEF included, NPHI excluded), 10-fold grouped CV, per-class report with fold presence | Sec. 4.2 |
 | `code/geolink_baseline_kaggle.py` | Geolink: parse 223 LAS files, 10-fold grouped CV baseline | Sec. 4.3 |
 | `code/geolink_pef_test_kaggle.py` | Geolink PEF-inclusion test on the wells that have PEF | Table 4 |
-| `code/generate_logplot_comparison.py` | Actual-vs-predicted well-log plots | Fig. 2 |
-| `code/make_paper_figures.py` | Figures 1, 3, 4, 5, 6 and the display equations | Figs. 1, 3-6 |
-| `geolink/`, `manuscript/` | Written-up Geolink results and citation checks | n/a |
+| `code/generate_logplot_comparison.py` | Actual-vs-predicted well-log plots (run after the SEG pipeline) | Fig. 2 |
+| `code/make_paper_figures.py` | Figures 1, 3, 4, 5, 6 | Figs. 1, 3-6 |
+| `geolink/` | Notes and results from the Geolink survey, baseline, diagnosis and PEF test | n/a |
 
-`code/generate_figures.py` is an earlier version of the figure script and is kept for history; use `make_paper_figures.py` for the current figures.
+Note on FORCE: `force_final_pipeline.py` ends at the cell that inspects the leaderboard blind-set files. The cell that scores that blind set is not included in the script, so the FORCE blind-set numbers in the paper (Fig. 4, Fig. 5) come from a separate run of that step.
 
 ## Data (not included)
 
@@ -28,7 +28,7 @@ The datasets are not redistributed here. Get them from the original sources:
 - **FORCE 2020**: https://github.com/bolgebrygg/Force-2020-Machine-Learning-competition
 - **Geolink**: Data Underground, https://dataunderground.org/dataset/geolink (223 LAS files plus a lithology code table).
 
-Check each dataset's own license. For Geolink the archive's two license files disagree (NLOD 2.0 in one, CC-BY-4.0 in the other), so confirm the terms with GEOLINK before reusing the data.
+Check each dataset's own license. For Geolink the archive's two license files disagree (NLOD 2.0 in one, CC-BY-4.0 in the other). We asked GEOLINK which applies and had not received a reply at the time of writing, so confirm the terms before reusing the data.
 
 ## Running the code
 
