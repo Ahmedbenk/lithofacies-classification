@@ -74,12 +74,3 @@ Per-facies recall comparison:
       7  0.316327 0.255102 0.316327 0.295918
       8  0.534137 0.580321 0.504016 0.558233
       9  0.788820 0.795031 0.639752 0.708075
-
-NOTE: this changes the manuscript diagnosis for HMM/Viterbi -- it now
-nets a real improvement over baseline (+2.0pt accuracy, +1.3pt adjacent
-accuracy) with real XGBoost, unlike the RandomForest-based preliminary
-run. Cascade specialist and depth-window features both confirm as net
-negative, consistent with the preliminary result. The Section 4
-diagnosis-table entry for facies 8 ("cascade specialist + HMM smoothing
-tested, no improvement found") needs the HMM half rewritten -- it did
-improve, at the cost of further-depressed recall on facies 1 and 5.
