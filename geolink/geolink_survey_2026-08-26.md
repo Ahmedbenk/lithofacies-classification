@@ -92,7 +92,3 @@ Silt + Shaly Silt alone make up 45% of all samples. The tail is extreme:
 Plutonic Rock has exactly 1 sample total across all 223 wells -- a more
 severe structural-scarcity case than FORCE's Basement class, and a clean
 stress test for the paper's Category-3 diagnosis.
-
-## Next step
-Build a combined per-depth dataframe from the LAS files and run the
-Phase 1 baseline + diagnostic mapping, same approach as SEG and FORCE.
