@@ -1,7 +1,7 @@
 # Geolink PEF-inclusion test -- Dolomite / Calcareous Cement
 
 Targeted remedy test per the diagnostic mapping (geolink_diagnostic_mapping_2026-08-30.md),
-same methodology as FORCE's PEF/NPHI feature-inclusion tests (Section 2.4/4.3).
+same methodology as FORCE's PEF/NPHI feature-inclusion tests (paper Section 4.2).
 Run on Kaggle. Restricted to the subset of wells that actually have PEF
 (85/223 wells, 439,245 rows after min-50 filter -- fewer than the full
 curve-survey's 91-well PEF count because this also requires all 5 baseline
