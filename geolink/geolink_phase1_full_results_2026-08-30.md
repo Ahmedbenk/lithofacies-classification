@@ -1,7 +1,6 @@
 # Geolink Phase 1 baseline -- FULL dataset (via Kaggle)
 
-Ran on Kaggle (kaggle.com/code/ahmadbenkhial/notebookafb150abad) after the
-sandbox we'd been using twice OOM-killed on this dataset at 1GB RAM. Full
+Run on Kaggle. Full
 cleaned dataset, no per-class cap: 1,184,461 rows, 181 wells, 22 classes
 (min-50-sample threshold), 10-fold StratifiedGroupKFold, calibrated single
 XGBoost with dampened (sqrt) class weighting -- same methodology as SEG and
@@ -32,37 +31,4 @@ FORCE.
 | Conglomerate | 17 | 0.000 | 0.000 | 0.000 | 1,013 |
 | Gap | 26 | 0.003 | 0.008 | 0.004 | 600 |
 | Carnallite | 33 | 0.000 | 0.000 | 0.000 | 414 |
-| Kaiinite | 34 | 0.000 | 0.000 | 0.000 | 54 |
-
-## What changed vs. the earlier capped-sample run (218,858 rows, 15k/class cap)
-
-Overall accuracy dropped from 0.355 (capped) to 0.388 (full) -- actually
-slightly *higher* at full scale, not lower. But per-class patterns shifted
-in ways worth noting:
-
-- **Dolomite got dramatically worse** at full scale: F1 0.055 (capped) ->
-  0.009 (full). The capped run had *undersampled* Dolomite's 3,075 real
-  samples down to whatever fit under the cap alongside majority classes,
-  which apparently flattered it. At true scale, against the real class
-  imbalance, Dolomite is essentially unlearned -- an even stronger
-  Category-2/4 diagnosis candidate than first thought.
-- **Coal improved** (F1 0.65 capped -> 0.394 full) -- wait, this direction
-  reversed: capped run overstated Coal too, likely for the same
-  undersampling-of-majority-classes reason (capping doesn't just shrink
-  big classes, it changes the *relative* class balance the model sees
-  during training, which changes what dampened weighting effectively does).
-- **Bottom line: the capped run was not just "noisier," it was
-  systematically distorted by the artificial per-class cap changing
-  relative class weights.** Treat only this full-scale run as reportable;
-  the earlier capped numbers should not be cited in the paper.
-
-## Next steps
-- Map all 22 classes into the four diagnostic categories formally.
-- Test PEF inclusion (41% well coverage) specifically for Dolomite, given
-  how much worse it looks now.
-- Zero-recall classes (Conglomerate, Carnallite, Kaiinite) plus near-zero
-  Gap and Dolomite are strong Category-3 (structural scarcity) candidates --
-  though Dolomite has 3,075 samples, more than several classes that DO
-  work (Anhydrite: 2,691, Coal: 5,113), so scarcity alone doesn't explain
-  it -- lean toward Category 2 (missing feature) or 4 (ambiguity) pending
-  the PEF test.
+| Kainite | 34 | 0.000 | 0.000 | 0.000 | 54 |
