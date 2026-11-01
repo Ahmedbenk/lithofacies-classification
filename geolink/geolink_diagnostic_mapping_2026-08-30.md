@@ -50,3 +50,7 @@ Run the PEF-inclusion test on the subset of wells that have it (41% coverage,
 per the curve survey), focused on Dolomite and Calcareous Cement -- the two
 Category 2 candidates -- same targeted-remedy approach as FORCE's PEF test
 for Chalk and Anhydrite.
+
+## Correction after counting wells per class
+
+Counting the wells that contain each class changes the Dolomite assignment above. Dolomite occurs in only 8 wells, and 83% of its samples come from one of them, so structural scarcity (category 3) explains its failure better than ambiguity. Calcareous Cement occurs in 164 wells, with no well holding more than 16% of its samples, so it stays under suspected ambiguity (category 4). In both cases the PEF test did not support a missing-feature explanation. Well counts per class are in Table 3 of the paper.
