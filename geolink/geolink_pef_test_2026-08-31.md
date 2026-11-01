@@ -58,3 +58,7 @@ in the PEF-well subset; no other class showed a delta larger than +/-0.04,
 so the effect is genuinely concentrated on Limestone (+0.040) and Chalk
 (+0.034) -- both plausible real PEF beneficiaries -- rather than a general
 lift across the board.
+
+## Correction after counting wells per class
+
+Counting the wells that contain each class changes the Dolomite assignment above. Dolomite occurs in only 8 wells, and 83% of its samples come from one of them, so structural scarcity (category 3) explains its failure better than ambiguity. Calcareous Cement occurs in 164 wells, with no well holding more than 16% of its samples, so it stays under suspected ambiguity (category 4). In both cases the PEF test did not support a missing-feature explanation. Well counts per class are in Table 3 of the paper.
