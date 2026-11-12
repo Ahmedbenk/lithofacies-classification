@@ -1,0 +1,94 @@
+train (1170511, 10) wells 98
+fold 1
+fold 2
+fold 3
+fold 4
+fold 5
+fold 6
+fold 7
+fold 8
+fold 9
+fold 10
+
+### FORCE CROSS-VALIDATION (10-fold, well-grouped): wells=98 accuracy 0.6679 (0.6332, 0.7002) | macro-F1 0.3677 (0.3022, 0.4194) | balanced acc 0.3778 (0.3334, 0.4357)
+          class  wells_with_class  support  recall  ci_lo  ci_hi
+       Basement                 1      103   0.000 0.0000 0.0000
+         Halite                 3     8213   0.350 0.0000 0.7366
+      Anhydrite                 6     1085   0.356 0.0000 0.5164
+          Chalk                11    10513   0.300 0.0124 0.5466
+       Dolomite                37     1688   0.041 0.0099 0.0732
+           Coal                51     3820   0.548 0.4695 0.6377
+           Tuff                55    15245   0.372 0.2972 0.4588
+           Marl                73    33329   0.348 0.2239 0.4660
+      Limestone                94    56320   0.524 0.4131 0.6161
+Sandstone/Shale                97   150455   0.254 0.1977 0.3284
+      Sandstone                98   168937   0.637 0.5826 0.6818
+          Shale                98   720803   0.806 0.7676 0.8403
+
+### CLASS-BY-FOLD (distinct wells containing class in each test fold)
+                 f1  f2  f3  f4  f5  f6  f7  f8  f9  f10  folds_present
+Sandstone        10   9   9   9   9   9  10  10  12   11             10
+Sandstone/Shale  10   9   9   9   8   9  10  10  12   11             10
+Shale            10   9   9   9   9   9  10  10  12   11             10
+Marl              6   7   8   5   8   8   7   8  10    6             10
+Dolomite          4   3   5   2   6   2   3   5   4    3             10
+Limestone        10   9   9   8   8   8   9  10  12   11             10
+Chalk             2   1   3   0   0   2   0   0   2    1              6
+Halite            0   0   2   0   0   0   0   0   0    1              2
+Anhydrite         0   0   2   1   0   1   0   0   1    1              5
+Tuff              4   4   5   5   6   6   8   7   7    3             10
+Coal              6   4   5   5   4   3   7   6   7    4             10
+Basement          0   0   0   0   0   1   0   0   0    0              1
+
+### CALIBRATION (OOF top-label): ECE=0.0319 | Brier=0.4662 | mean confidence=0.692 vs accuracy=0.668
+(np.float64(0.13), 35, np.float32(0.192), np.float64(0.171))
+(np.float64(0.2), 4644, np.float32(0.25), np.float64(0.246))
+(np.float64(0.27), 33485, np.float32(0.307), np.float64(0.333))
+(np.float64(0.33), 71935, np.float32(0.369), np.float64(0.396))
+(np.float64(0.4), 105901, np.float32(0.435), np.float64(0.449))
+(np.float64(0.47), 119358, np.float32(0.499), np.float64(0.495))
+(np.float64(0.53), 105289, np.float32(0.566), np.float64(0.548))
+(np.float64(0.6), 94834, np.float32(0.633), np.float64(0.599))
+(np.float64(0.67), 93929, np.float32(0.7), np.float64(0.649))
+(np.float64(0.73), 98376, np.float32(0.767), np.float64(0.715))
+(np.float64(0.8), 110369, np.float32(0.834), np.float64(0.789))
+(np.float64(0.87), 127018, np.float32(0.901), np.float64(0.862))
+(np.float64(0.93), 205338, np.float32(0.971), np.float64(0.935))
+class, mean predicted probability of true class, recall
+Sandstone 0.543 0.637
+Sandstone/Shale 0.242 0.254
+Shale 0.66 0.806
+Marl 0.27 0.348
+Dolomite 0.055 0.041
+Limestone 0.473 0.524
+Chalk 0.285 0.3
+Halite 0.336 0.35
+Anhydrite 0.371 0.356
+Tuff 0.301 0.372
+Coal 0.517 0.548
+Basement 0.0 0.0
+
+test features (136786, 27) target (136786, 3) ['WELL', 'DEPTH_MD', 'FORCE_2020_LITHOFACIES_LITHOLOGY']
+blind wells: 10 rows 136786 train-test well overlap: 0
+
+### FORCE OFFICIAL BLIND WELLS: wells=10 accuracy 0.6942 (0.6089, 0.7847) | macro-F1 0.3340 (0.3118, 0.3981) | balanced acc 0.3814 (0.351, 0.4538)
+          class  wells_with_class  support  recall  ci_lo  ci_hi
+          Chalk                 1      625   0.027 0.0272 0.0272
+      Anhydrite                 2      125   0.000 0.0000 0.0000
+       Dolomite                 5      416   0.000 0.0000 0.0000
+           Tuff                 6     1245   0.454 0.1713 0.6157
+           Coal                 7      690   0.668 0.5318 0.7881
+           Marl                 9     3306   0.257 0.0124 0.3701
+          Shale                10    83975   0.781 0.6620 0.8887
+Sandstone/Shale                10    17558   0.381 0.1539 0.6784
+      Limestone                10     4798   0.475 0.1317 0.6645
+      Sandstone                10    24048   0.772 0.6804 0.8484
+
+Per-well blind recall, Chalk:
+  15/9-14: n=625, recall=0.027
+
+Per-well blind recall, Anhydrite:
+  25/10-10: n=115, recall=0.000
+  34/3-3 A: n=10, recall=0.000
+Chalk row of blind confusion (true Chalk -> predicted): {'Marl': 1, 'Limestone': 607, 'Chalk': 17}
+DONE
