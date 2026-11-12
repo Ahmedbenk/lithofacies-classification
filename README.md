@@ -1,6 +1,6 @@
 # Lithofacies classification: a diagnostic framework across three benchmarks
 
-Code for the paper *A Diagnostic Framework for Minority-Class Lithofacies Classification: Three-Dataset Benchmark* (Benkhayal, Mohamed, Farag).
+Code for the paper *A Diagnostic Framework for Minority-Class Lithofacies Classification: Three-Dataset Benchmark* (Benkhayal, Nicholson, Mohamed, Farag).
 
 The paper tests a calibrated single-model XGBoost baseline, four hybrid mechanisms, and a four-way diagnosis of underperforming classes on three public well-log datasets: SEG (Hugoton-Panoma), FORCE 2020, and Geolink.
 
@@ -13,12 +13,20 @@ The paper tests a calibrated single-model XGBoost baseline, four hybrid mechanis
 | `revalidation/revalidate_hybrids_xgboost.py` | HMM/Viterbi, cascade specialist and depth-window features, tested with XGBoost (output in `revalidation/`) | Sec. 2.4 |
 | `code/force_final_pipeline.py` | FORCE 2020 final model (PEF included, NPHI excluded), 10-fold grouped CV, per-class report with fold presence | Sec. 4.2 |
 | `code/geolink_baseline_kaggle.py` | Geolink: parse 223 LAS files, 10-fold grouped CV baseline | Sec. 4.3 |
-| `code/geolink_pef_test_kaggle.py` | Geolink PEF-inclusion test on the wells that have PEF | Table 4 |
+| `code/geolink_pef_test_kaggle.py` | Geolink PEF-inclusion test on the wells that have PEF | Table 7 |
 | `code/generate_logplot_comparison.py` | Actual-vs-predicted well-log plots (run after the SEG pipeline) | Fig. 2 |
 | `code/seg_perwell_analysis.py` | SEG per-well comparison of baseline vs HMM/Viterbi (per-well accuracy, balanced accuracy, macro-F1) | Sec. 2.4 |
-| `code/geolink_heldout_and_signatures_kaggle.py` | Geolink: 20% held-out-well validation (seed 42) and Chalk/Dolomite vs Limestone log-signature comparison | Sec. 4.3, Tables 5-6 |
+| `code/geolink_heldout_and_signatures_kaggle.py` | Geolink: 20% held-out-well validation (seed 42) and Chalk/Dolomite vs Limestone log-signature comparison | Sec. 4.3, Tables 8-9 |
+| `code/geolink_pef_ci_kaggle.py` | Geolink PEF-inclusion test with paired well-level bootstrap intervals (same 85-well subset and folds) | Sec. 4.3, Table 7 |
+| `code/force_pef_ci_kaggle.py` | FORCE PEF-inclusion test with paired well-level bootstrap intervals (same folds, with vs without PEF) | Sec. 4.2, Table 6 |
+| `code/geolink_rules_kaggle.py` | Numeric diagnostic rules applied to Geolink 10-fold out-of-fold predictions | Sec. 2.3, Table 4 |
+| `code/force_rules_kaggle.py` | Numeric diagnostic rules applied to FORCE 10-fold out-of-fold predictions | Sec. 2.3, Table 4 |
+| `code/geolink_uncertainty_kaggle.py`, `code/force_uncertainty_kaggle.py` | Well-level bootstrap intervals, class-by-fold coverage and calibration (Geolink, FORCE) | Sec. 4.5, Tables 10-11 |
+| `code/seg_calibration_spacing.py` | SEG calibration (leave-one-well-out) and HMM gain after thinning the sample spacing | Sec. 4.5 |
 | `code/make_paper_figures.py` | Figures 1, 3, 4, 5, 6 | Figs. 1, 3-6 |
 | `geolink/` | Notes and results from the Geolink survey, baseline, diagnosis and PEF test | n/a |
+
+Note on the rules scripts: the `mutual` column printed by `*_rules_kaggle.py` uses the first, fraction-based criterion (each class sends at least 20% of its samples to the other). The paper judges symmetry from counts instead (this was changed after the first result, as Section 2.3 states), so FORCE Sandstone/Shale is flagged there from the counts and not from the printed column. Logs of all runs are in `results/`.
 
 Note on FORCE: `force_final_pipeline.py` ends at the cell that inspects the leaderboard blind-set files. The cell that scores that blind set is not included in the script, so the FORCE blind-set numbers in the paper (Fig. 4, Fig. 5) come from a separate run of that step.
 
@@ -30,7 +38,7 @@ The datasets are not redistributed here. Get them from the original sources:
 - **FORCE 2020**: https://github.com/bolgebrygg/Force-2020-Machine-Learning-competition
 - **Geolink**: Data Underground, https://dataunderground.org/dataset/geolink (223 LAS files plus a lithology code table).
 
-Check each dataset's own license. For Geolink the archive's two license files disagree (NLOD 2.0 in one, CC-BY-4.0 in the other). We asked GEOLINK which applies and had not received a reply at the time of writing, so confirm the terms before reusing the data.
+Check each dataset's own license. For Geolink the archive's two license files disagree (NLOD 2.0 in one, CC-BY-4.0 in the other). We asked GEOLINK which applies and had not received a reply at the time of writing. The paper treats the data as CC-BY-4.0; confirm the terms before reusing the data.
 
 ## Running the code
 

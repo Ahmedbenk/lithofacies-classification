@@ -1,0 +1,37 @@
+Data: (1184461, 8) | wells: 181 | classes: 22
+fold 1
+fold 2
+fold 3
+fold 4
+fold 5
+fold 6
+fold 7
+fold 8
+fold 9
+fold 10
+
+### RULES: GEOLINK  (underperforming = CV F1 < 0.30; scarcity = <=10 wells or <=7 of 10 folds; adjacency = top wrong class in same family and >=30% of the class's errors; mutual = top partner takes >=20% of the class and the class takes >=20% of the partner)
+                 class  wells  folds    F1  under              top_wrong  share_of_errors  frac_of_class  reverse_frac  scarce  adjacent  mutual
+               Kaïnite      1      1 0.000   True      Calcareous Cement             0.30           0.30          0.00    True     False   False
+            Carnallite      2      1 0.000   True       Cross Bedded Sst             0.33           0.33          0.00    True     False   False
+                Halite      5      3 0.298   True       Cross Bedded Sst             0.44           0.35          0.00    True     False   False
+          Conglomerate      7      6 0.000   True                   Silt             0.33           0.33          0.01    True      True   False
+              Dolomite      8      6 0.010   True             Shaly Silt             0.43           0.42          0.01    True     False   False
+                   Gap      9      6 0.004   True              Marlstone             0.22           0.22          0.01    True     False   False
+             Anhydrite     10      7 0.654  False             Shaly Silt             0.23           0.06          0.00    True     False   False
+      Porous Limestone     14      8 0.428  False              Limestone             0.40           0.23          0.05   False      True   False
+                 Chalk     16     10 0.239   True              Limestone             0.46           0.36          0.10   False      True   False
+              Cinerite     66     10 0.255   True                   Silt             0.56           0.33          0.05   False     False   False
+             Limestone     69     10 0.513  False Argillaceous Limestone             0.26           0.12          0.13   False     False   False
+                  Coal     87     10 0.392  False                   Silt             0.27           0.09          0.01   False     False   False
+            Sandy Silt    101     10 0.073   True                   Silt             0.31           0.29          0.03   False      True   False
+Argillaceous Limestone    102     10 0.250   True              Marlstone             0.24           0.17          0.07   False     False   False
+             Sandstone    110     10 0.305  False             Silty Sand             0.45           0.31          0.14   False      True   False
+      Cross Bedded Sst    128     10 0.350  False             Silty Sand             0.26           0.16          0.17   False     False   False
+             Marlstone    145     10 0.446  False                   Silt             0.28           0.14          0.10   False     False   False
+     Calcareous Cement    164     10 0.064   True                   Silt             0.21           0.19          0.02   False     False   False
+            Silty Sand    174     10 0.333  False       Cross Bedded Sst             0.26           0.17          0.16   False     False   False
+           Silty Shale    175     10 0.431  False             Shaly Silt             0.59           0.32          0.13   False      True   False
+            Shaly Silt    179     10 0.473  False                   Silt             0.34           0.18          0.24   False      True   False
+                  Silt    180     10 0.396  False             Shaly Silt             0.37           0.24          0.18   False      True   False
+DONE

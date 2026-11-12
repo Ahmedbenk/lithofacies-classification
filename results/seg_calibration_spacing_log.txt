@@ -1,0 +1,4 @@
+SEG LOWO calibration: accuracy 0.4994, mean confidence 0.776, ECE 0.2766, Brier 0.7496
+stride 1 (spacing 0.5 ft): n=3232, baseline acc 0.4994, HMM acc 0.5198, gain +0.0204, wells improved 7/8
+stride 2 (spacing 1.0 ft): n=1619, baseline acc 0.4966, HMM acc 0.5176, gain +0.0210, wells improved 7/8
+stride 3 (spacing 1.5 ft): n=1080, baseline acc 0.4852, HMM acc 0.4963, gain +0.0111, wells improved 5/8

@@ -1,0 +1,27 @@
+train (1170511, 10) wells 98
+fold 1
+fold 2
+fold 3
+fold 4
+fold 5
+fold 6
+fold 7
+fold 8
+fold 9
+fold 10
+
+### RULES: FORCE  (underperforming = CV F1 < 0.30; scarcity = <=10 wells or <=7 of 10 folds; adjacency = top wrong class in same family and >=30% of the class's errors; mutual = top partner takes >=20% of the class and the class takes >=20% of the partner)
+          class  wells  folds    F1  under       top_wrong  share_of_errors  frac_of_class  reverse_frac  scarce  adjacent  mutual
+       Basement      1      1 0.000   True       Limestone             0.78           0.78          0.00    True     False   False
+         Halite      3      2 0.517  False       Limestone             0.82           0.53          0.00    True     False   False
+      Anhydrite      6      5 0.488  False       Limestone             0.47           0.30          0.00    True     False   False
+          Chalk     11      6 0.370  False       Limestone             0.64           0.45          0.04    True      True   False
+       Dolomite     37     10 0.033   True           Shale             0.42           0.41          0.00   False     False   False
+           Coal     51     10 0.260   True       Sandstone             0.47           0.21          0.02   False     False   False
+           Tuff     55     10 0.256   True           Shale             0.65           0.41          0.02   False     False   False
+           Marl     73     10 0.290   True           Shale             0.53           0.34          0.03   False     False   False
+      Limestone     94     10 0.475  False           Shale             0.31           0.15          0.01   False     False   False
+Sandstone/Shale     97     10 0.273   True           Shale             0.63           0.47          0.09   False      True   False
+      Sandstone     98     10 0.634  False           Shale             0.38           0.14          0.04   False      True   False
+          Shale     98     10 0.816  False Sandstone/Shale             0.45           0.09          0.47   False      True   False
+DONE
