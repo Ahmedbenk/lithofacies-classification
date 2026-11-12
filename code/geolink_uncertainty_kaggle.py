@@ -1,1 +1,148 @@
-{"metadata":{"languageNullable":"python","kernelTypeNullable":"script","isPrivateNullable":true,"enableGpuNullable":false,"enableTpuNullable":false,"enableInternetNullable":true,"currentVersionNumberNullable":1,"dockerImageNullable":"gcr.io/kaggle-images/python@sha256:0717e81990be591f8c5f98f033d29ab23e9ffde057e5b3a6bd4371f93969e962","machineShapeNullable":"None","id":144511185,"ref":"ahmadbenkhial/geolink-uncertainty-calibration","title":"geolink uncertainty calibration","author":"Ahmad Benkhial","slug":"geolink-uncertainty-calibration","lastRunTime":"2026-11-09T03:57:42.2938675Z","language":"python","hasLanguage":true,"kernelType":"script","hasKernelType":true,"isPrivate":true,"hasIsPrivate":true,"enableGpu":false,"hasEnableGpu":true,"enableTpu":false,"hasEnableTpu":true,"enableInternet":true,"hasEnableInternet":true,"categoryIds":[],"datasetDataSources":[],"kernelDataSources":[],"competitionDataSources":[],"modelDataSources":[],"totalVotes":0,"currentVersionNumber":1,"hasCurrentVersionNumber":true,"dockerImage":"gcr.io/kaggle-images/python@sha256:0717e81990be591f8c5f98f033d29ab23e9ffde057e5b3a6bd4371f93969e962","hasDockerImage":true,"machineShape":"None","hasMachineShape":true},"blob":{"sourceNullable":"import subprocess, sys\nsubprocess.run([sys.executable, \u0022-m\u0022, \u0022pip\u0022, \u0022install\u0022, \u0022-q\u0022, \u0022gdown\u0022, \u0022lasio\u0022], check=True)\nimport gdown, lasio, glob, zipfile, gc, json\nimport numpy as np, pandas as pd, openpyxl\nimport xgboost as xgb\nfrom sklearn.model_selection import StratifiedGroupKFold\nfrom sklearn.utils.class_weight import compute_sample_weight\n\nRS = 42\nB = [\u0027GR\u0027, \u0027RDEP\u0027, \u0027RHOB\u0027, \u0027NPHI\u0027, \u0027DTC\u0027]\nFE = [\u0027GR\u0027, \u0027RDEP_log10\u0027, \u0027RHOB\u0027, \u0027NPHI\u0027, \u0027DTC\u0027]\ngdown.download(\u0022https://drive.google.com/uc?id=1ZvLG1SRBQB4mDUmPHSc_6kP-ubS5uNCv\u0022, \u0022geolink.zip\u0022, quiet=False)\nwith zipfile.ZipFile(\u0022geolink.zip\u0022) as z:\n    z.extractall(\u0022las\u0022)\nfiles = glob.glob(\u0022las/*.las\u0022)\nsidx = {f: i for i, f in enumerate(sorted(files))}\nframes = []\nfor f in files:\n    try:\n        las = lasio.read(f, engine=\u0027normal\u0027)\n    except Exception:\n        continue\n    cu = {c.mnemonic.upper(): c.mnemonic for c in las.curves}\n    lc = next((c.mnemonic for c in las.curves if \u0027LITH\u0027 in c.mnemonic.upper()), None)\n    if lc is None or any(b not in cu for b in B):\n        continue\n    wn = las.well[\u0027WELL\u0027].value if \u0027WELL\u0027 in las.well else f.split(\u0027/\u0027)[-1]\n    d = pd.DataFrame({b: np.asarray(las[cu[b]], dtype=np.float32) for b in B})\n    d[\u0027L\u0027] = np.round(np.asarray(las[lc], dtype=np.float32), 1)\n    d = d.dropna(); d = d[d[\u0027RDEP\u0027] \u003e 0]\n    if len(d) == 0:\n        continue\n    d[\u0027WN\u0027] = wn; d[\u0027W\u0027] = sidx[f]\n    frames.append(d)\n    del las\nD = pd.concat(frames, ignore_index=True); del frames; gc.collect()\nD[\u0027RDEP_log10\u0027] = np.log10(D[\u0027RDEP\u0027]).astype(np.float32); D = D.drop(columns=[\u0027RDEP\u0027])\nvc = D[\u0027L\u0027].value_counts()\nD = D[D[\u0027L\u0027].isin(vc[vc \u003e= 50].index)].reset_index(drop=True)\nprint(\u0022Data:\u0022, D.shape, \u0022| wells:\u0022, D[\u0027WN\u0027].nunique(), \u0022| classes:\u0022, D[\u0027L\u0027].nunique())\nnames = {}\nfor r in openpyxl.load_workbook(glob.glob(\u0022las/**/*.xlsx\u0022, recursive=True)[0]).active.iter_rows(values_only=True, min_row=2):\n    if r[0] and r[3] is not None and r[0] != \u0027NULL\u0027:\n        try: names[round(float(r[3]), 1)] = r[0]\n        except Exception: pass\nclasses = sorted(D[\u0027L\u0027].unique()); K = len(classes)\ncidx = {c: i for i, c in enumerate(classes)}\ny = D[\u0027L\u0027].map(cidx).values.astype(np.int32)\nX = D[FE].values.astype(np.float32)\ngn = D[\u0027WN\u0027].values\n\ndef fit(Xtr, ytr, nc):\n    uc, yi = np.unique(ytr, return_inverse=True)\n    sw = np.sqrt(compute_sample_weight(\u0027balanced\u0027, yi)).astype(np.float32)\n    m = xgb.XGBClassifier(n_estimators=300, max_depth=6, learning_rate=0.1, random_state=RS,\n                          eval_metric=\u0027mlogloss\u0027, tree_method=\u0027hist\u0027)\n    m.fit(Xtr, yi, sample_weight=sw)\n    return m, uc\n\ndef predict_full(m, uc, Xte, nc):\n    p = m.predict_proba(Xte)\n    P = np.zeros((len(Xte), nc), dtype=np.float32); P[:, uc] = p\n    return P\n\noofP = np.zeros((len(y), K), dtype=np.float32); fold = np.zeros(len(y), dtype=np.int32)\nsgkf = StratifiedGroupKFold(n_splits=10, shuffle=True, random_state=RS)\nfor fi, (tr, te) in enumerate(sgkf.split(X, y, groups=gn)):\n    m, uc = fit(X[tr], y[tr], K)\n    oofP[te] = predict_full(m, uc, X[te], K); fold[te] = fi\n    del m; gc.collect(); print(\u0022fold\u0022, fi + 1, flush=True)\noof = oofP.argmax(1)\n\ndef metrics_from_conf(C):\n    tp = np.diag(C).astype(float); sup = C.sum(1).astype(float); pr = C.sum(0).astype(float)\n    rec = np.divide(tp, sup, out=np.zeros(K), where=sup \u003e 0)\n    prec = np.divide(tp, pr, out=np.zeros(K), where=pr \u003e 0)\n    f1 = np.divide(2 * prec * rec, prec + rec, out=np.zeros(K), where=(prec + rec) \u003e 0)\n    pres = sup \u003e 0\n    return tp.sum() / C.sum(), f1[pres].mean(), rec[pres].mean(), rec, pres\n\ndef per_well_conf(yt, yp, wells):\n    uw = np.unique(wells); wi = {w: i for i, w in enumerate(uw)}\n    C = np.zeros((len(uw), K, K), dtype=np.int64)\n    np.add.at(C, (np.array([wi[w] for w in wells]), yt, yp), 1)\n    return uw, C\n\ndef boot(C, nb=1000, seed=RS):\n    rng = np.random.default_rng(seed); n = C.shape[0]\n    out = []; recs = []\n    for _ in range(nb):\n        s = rng.integers(0, n, n); Cs = C[s].sum(0)\n        a, mf, ba, rec, pres = metrics_from_conf(Cs)\n        out.append((a, mf, ba)); r = rec.copy(); r[~pres] = np.nan; recs.append(r)\n    out = np.array(out); recs = np.array(recs)\n    ci = lambda v: (np.nanpercentile(v, 2.5), np.nanpercentile(v, 97.5))\n    return out, recs, ci\n\ndef report(tag, yt, yp, wells):\n    uw, C = per_well_conf(yt, yp, wells)\n    a, mf, ba, rec, pres = metrics_from_conf(C.sum(0))\n    out, recs, ci = boot(C)\n    print(f\u0022\\n### {tag}: wells={len(uw)}  accuracy {a:.4f} {tuple(round(float(x),4) for x in ci(out[:,0]))} | macro-F1 {mf:.4f} {tuple(round(float(x),4) for x in ci(out[:,1]))} | balanced acc {ba:.4f} {tuple(round(float(x),4) for x in ci(out[:,2]))}\u0022)\n    rows = []\n    for k in range(K):\n        if C.sum(0)[k].sum() == 0: continue\n        lo, hi = ci(recs[:, k]) if np.isfinite(recs[:, k]).any() else (np.nan, np.nan)\n        rows.append({\u0027class\u0027: names.get(classes[k], classes[k]), \u0027wells_with_class\u0027: int((C[:, k, :].sum(1) \u003e 0).sum()),\n                     \u0027support\u0027: int(C[:, k, :].sum()), \u0027recall\u0027: round(rec[k], 3), \u0027ci_lo\u0027: round(lo, 3), \u0027ci_hi\u0027: round(hi, 3)})\n    T = pd.DataFrame(rows).sort_values(\u0027wells_with_class\u0027); print(T.to_string(index=False)); return T, C, uw\n\nT_cv, C_cv, uw_cv = report(\u0022CROSS-VALIDATION (10-fold, well-grouped)\u0022, y, oof, gn)\nT_cv.to_csv(\u0022geolink_cv_ci.csv\u0022, index=False)\n\nprint(\u0022\\n### CLASS-BY-FOLD (number of distinct wells containing the class in each test fold)\u0022)\ncf = pd.DataFrame({names.get(c, c): [len(set(gn[(fold == f) \u0026 (y == cidx[c])])) for f in range(10)] for c in classes}).T\ncf.columns = [f\u0022f{f+1}\u0022 for f in range(10)]; cf[\u0027folds_present\u0027] = (cf \u003e 0).sum(1); print(cf.to_string())\ncf.to_csv(\u0022geolink_class_by_fold.csv\u0022)\n\nconf = oofP.max(1); corr = (oof == y).astype(float)\nbins = np.linspace(0, 1, 16); ece = 0.0; rows = []\nfor i in range(15):\n    mk = (conf \u003e bins[i]) \u0026 (conf \u003c= bins[i + 1])\n    if mk.sum():\n        ece += mk.mean() * abs(corr[mk].mean() - conf[mk].mean()); rows.append((round(bins[i], 2), int(mk.sum()), round(conf[mk].mean(), 3), round(corr[mk].mean(), 3)))\nbrier = float(np.mean(np.sum((oofP - np.eye(K, dtype=np.float32)[y]) ** 2, 1)))\nprint(f\u0022\\n### CALIBRATION (OOF, top-label): ECE={ece:.4f} | multiclass Brier={brier:.4f} | mean confidence={conf.mean():.3f} vs accuracy={corr.mean():.3f}\u0022)\nprint(\u0022bin_lo, n, mean_conf, accuracy:\u0022); [print(r) for r in rows]\nprint(\u0022class, mean predicted probability of true class, recall\u0022)\nfor k in range(K):\n    mk = y == k\n    if mk.sum(): print(names.get(classes[k], classes[k]), round(float(oofP[mk, k].mean()), 3), round(float((oof[mk] == k).mean()), 3))\ndel oofP; gc.collect()\n\nwl = np.array(sorted(D[\u0027W\u0027].unique()))\ntw = set(np.random.default_rng(RS).choice(wl, size=int(round(0.2 * len(wl))), replace=False))\nte = D[\u0027W\u0027].isin(tw).values; tr = ~te\nm, uc = fit(X[tr], y[tr], K)\nP = predict_full(m, uc, X[te], K); ho = P.argmax(1)\nT_ho, C_ho, uw_ho = report(\u0022HELD-OUT 36 WELLS\u0022, y[te], ho, D[\u0027W\u0027].values[te])\nT_ho.to_csv(\u0022geolink_heldout_ci.csv\u0022, index=False)\nfor cname in (\u0027Chalk\u0027, \u0027Halite\u0027):\n    k = [i for i, c in enumerate(classes) if names.get(c) == cname][0]\n    print(f\u0022\\nPer-well held-out recall, {cname}:\u0022)\n    for wi_, w in enumerate(uw_ho):\n        s = C_ho[wi_, k, :].sum()\n        if s: print(f\u0022  well {w}: n={int(s)}, recall={C_ho[wi_, k, k] / s:.3f}\u0022)\nprint(\u0022DONE\u0022)\n","languageNullable":"python","kernelTypeNullable":"script","slugNullable":"geolink-uncertainty-calibration","source":"import subprocess, sys\nsubprocess.run([sys.executable, \u0022-m\u0022, \u0022pip\u0022, \u0022install\u0022, \u0022-q\u0022, \u0022gdown\u0022, \u0022lasio\u0022], check=True)\nimport gdown, lasio, glob, zipfile, gc, json\nimport numpy as np, pandas as pd, openpyxl\nimport xgboost as xgb\nfrom sklearn.model_selection import StratifiedGroupKFold\nfrom sklearn.utils.class_weight import compute_sample_weight\n\nRS = 42\nB = [\u0027GR\u0027, \u0027RDEP\u0027, \u0027RHOB\u0027, \u0027NPHI\u0027, \u0027DTC\u0027]\nFE = [\u0027GR\u0027, \u0027RDEP_log10\u0027, \u0027RHOB\u0027, \u0027NPHI\u0027, \u0027DTC\u0027]\ngdown.download(\u0022https://drive.google.com/uc?id=1ZvLG1SRBQB4mDUmPHSc_6kP-ubS5uNCv\u0022, \u0022geolink.zip\u0022, quiet=False)\nwith zipfile.ZipFile(\u0022geolink.zip\u0022) as z:\n    z.extractall(\u0022las\u0022)\nfiles = glob.glob(\u0022las/*.las\u0022)\nsidx = {f: i for i, f in enumerate(sorted(files))}\nframes = []\nfor f in files:\n    try:\n        las = lasio.read(f, engine=\u0027normal\u0027)\n    except Exception:\n        continue\n    cu = {c.mnemonic.upper(): c.mnemonic for c in las.curves}\n    lc = next((c.mnemonic for c in las.curves if \u0027LITH\u0027 in c.mnemonic.upper()), None)\n    if lc is None or any(b not in cu for b in B):\n        continue\n    wn = las.well[\u0027WELL\u0027].value if \u0027WELL\u0027 in las.well else f.split(\u0027/\u0027)[-1]\n    d = pd.DataFrame({b: np.asarray(las[cu[b]], dtype=np.float32) for b in B})\n    d[\u0027L\u0027] = np.round(np.asarray(las[lc], dtype=np.float32), 1)\n    d = d.dropna(); d = d[d[\u0027RDEP\u0027] \u003e 0]\n    if len(d) == 0:\n        continue\n    d[\u0027WN\u0027] = wn; d[\u0027W\u0027] = sidx[f]\n    frames.append(d)\n    del las\nD = pd.concat(frames, ignore_index=True); del frames; gc.collect()\nD[\u0027RDEP_log10\u0027] = np.log10(D[\u0027RDEP\u0027]).astype(np.float32); D = D.drop(columns=[\u0027RDEP\u0027])\nvc = D[\u0027L\u0027].value_counts()\nD = D[D[\u0027L\u0027].isin(vc[vc \u003e= 50].index)].reset_index(drop=True)\nprint(\u0022Data:\u0022, D.shape, \u0022| wells:\u0022, D[\u0027WN\u0027].nunique(), \u0022| classes:\u0022, D[\u0027L\u0027].nunique())\nnames = {}\nfor r in openpyxl.load_workbook(glob.glob(\u0022las/**/*.xlsx\u0022, recursive=True)[0]).active.iter_rows(values_only=True, min_row=2):\n    if r[0] and r[3] is not None and r[0] != \u0027NULL\u0027:\n        try: names[round(float(r[3]), 1)] = r[0]\n        except Exception: pass\nclasses = sorted(D[\u0027L\u0027].unique()); K = len(classes)\ncidx = {c: i for i, c in enumerate(classes)}\ny = D[\u0027L\u0027].map(cidx).values.astype(np.int32)\nX = D[FE].values.astype(np.float32)\ngn = D[\u0027WN\u0027].values\n\ndef fit(Xtr, ytr, nc):\n    uc, yi = np.unique(ytr, return_inverse=True)\n    sw = np.sqrt(compute_sample_weight(\u0027balanced\u0027, yi)).astype(np.float32)\n    m = xgb.XGBClassifier(n_estimators=300, max_depth=6, learning_rate=0.1, random_state=RS,\n                          eval_metric=\u0027mlogloss\u0027, tree_method=\u0027hist\u0027)\n    m.fit(Xtr, yi, sample_weight=sw)\n    return m, uc\n\ndef predict_full(m, uc, Xte, nc):\n    p = m.predict_proba(Xte)\n    P = np.zeros((len(Xte), nc), dtype=np.float32); P[:, uc] = p\n    return P\n\noofP = np.zeros((len(y), K), dtype=np.float32); fold = np.zeros(len(y), dtype=np.int32)\nsgkf = StratifiedGroupKFold(n_splits=10, shuffle=True, random_state=RS)\nfor fi, (tr, te) in enumerate(sgkf.split(X, y, groups=gn)):\n    m, uc = fit(X[tr], y[tr], K)\n    oofP[te] = predict_full(m, uc, X[te], K); fold[te] = fi\n    del m; gc.collect(); print(\u0022fold\u0022, fi + 1, flush=True)\noof = oofP.argmax(1)\n\ndef metrics_from_conf(C):\n    tp = np.diag(C).astype(float); sup = C.sum(1).astype(float); pr = C.sum(0).astype(float)\n    rec = np.divide(tp, sup, out=np.zeros(K), where=sup \u003e 0)\n    prec = np.divide(tp, pr, out=np.zeros(K), where=pr \u003e 0)\n    f1 = np.divide(2 * prec * rec, prec + rec, out=np.zeros(K), where=(prec + rec) \u003e 0)\n    pres = sup \u003e 0\n    return tp.sum() / C.sum(), f1[pres].mean(), rec[pres].mean(), rec, pres\n\ndef per_well_conf(yt, yp, wells):\n    uw = np.unique(wells); wi = {w: i for i, w in enumerate(uw)}\n    C = np.zeros((len(uw), K, K), dtype=np.int64)\n    np.add.at(C, (np.array([wi[w] for w in wells]), yt, yp), 1)\n    return uw, C\n\ndef boot(C, nb=1000, seed=RS):\n    rng = np.random.default_rng(seed); n = C.shape[0]\n    out = []; recs = []\n    for _ in range(nb):\n        s = rng.integers(0, n, n); Cs = C[s].sum(0)\n        a, mf, ba, rec, pres = metrics_from_conf(Cs)\n        out.append((a, mf, ba)); r = rec.copy(); r[~pres] = np.nan; recs.append(r)\n    out = np.array(out); recs = np.array(recs)\n    ci = lambda v: (np.nanpercentile(v, 2.5), np.nanpercentile(v, 97.5))\n    return out, recs, ci\n\ndef report(tag, yt, yp, wells):\n    uw, C = per_well_conf(yt, yp, wells)\n    a, mf, ba, rec, pres = metrics_from_conf(C.sum(0))\n    out, recs, ci = boot(C)\n    print(f\u0022\\n### {tag}: wells={len(uw)}  accuracy {a:.4f} {tuple(round(float(x),4) for x in ci(out[:,0]))} | macro-F1 {mf:.4f} {tuple(round(float(x),4) for x in ci(out[:,1]))} | balanced acc {ba:.4f} {tuple(round(float(x),4) for x in ci(out[:,2]))}\u0022)\n    rows = []\n    for k in range(K):\n        if C.sum(0)[k].sum() == 0: continue\n        lo, hi = ci(recs[:, k]) if np.isfinite(recs[:, k]).any() else (np.nan, np.nan)\n        rows.append({\u0027class\u0027: names.get(classes[k], classes[k]), \u0027wells_with_class\u0027: int((C[:, k, :].sum(1) \u003e 0).sum()),\n                     \u0027support\u0027: int(C[:, k, :].sum()), \u0027recall\u0027: round(rec[k], 3), \u0027ci_lo\u0027: round(lo, 3), \u0027ci_hi\u0027: round(hi, 3)})\n    T = pd.DataFrame(rows).sort_values(\u0027wells_with_class\u0027); print(T.to_string(index=False)); return T, C, uw\n\nT_cv, C_cv, uw_cv = report(\u0022CROSS-VALIDATION (10-fold, well-grouped)\u0022, y, oof, gn)\nT_cv.to_csv(\u0022geolink_cv_ci.csv\u0022, index=False)\n\nprint(\u0022\\n### CLASS-BY-FOLD (number of distinct wells containing the class in each test fold)\u0022)\ncf = pd.DataFrame({names.get(c, c): [len(set(gn[(fold == f) \u0026 (y == cidx[c])])) for f in range(10)] for c in classes}).T\ncf.columns = [f\u0022f{f+1}\u0022 for f in range(10)]; cf[\u0027folds_present\u0027] = (cf \u003e 0).sum(1); print(cf.to_string())\ncf.to_csv(\u0022geolink_class_by_fold.csv\u0022)\n\nconf = oofP.max(1); corr = (oof == y).astype(float)\nbins = np.linspace(0, 1, 16); ece = 0.0; rows = []\nfor i in range(15):\n    mk = (conf \u003e bins[i]) \u0026 (conf \u003c= bins[i + 1])\n    if mk.sum():\n        ece += mk.mean() * abs(corr[mk].mean() - conf[mk].mean()); rows.append((round(bins[i], 2), int(mk.sum()), round(conf[mk].mean(), 3), round(corr[mk].mean(), 3)))\nbrier = float(np.mean(np.sum((oofP - np.eye(K, dtype=np.float32)[y]) ** 2, 1)))\nprint(f\u0022\\n### CALIBRATION (OOF, top-label): ECE={ece:.4f} | multiclass Brier={brier:.4f} | mean confidence={conf.mean():.3f} vs accuracy={corr.mean():.3f}\u0022)\nprint(\u0022bin_lo, n, mean_conf, accuracy:\u0022); [print(r) for r in rows]\nprint(\u0022class, mean predicted probability of true class, recall\u0022)\nfor k in range(K):\n    mk = y == k\n    if mk.sum(): print(names.get(classes[k], classes[k]), round(float(oofP[mk, k].mean()), 3), round(float((oof[mk] == k).mean()), 3))\ndel oofP; gc.collect()\n\nwl = np.array(sorted(D[\u0027W\u0027].unique()))\ntw = set(np.random.default_rng(RS).choice(wl, size=int(round(0.2 * len(wl))), replace=False))\nte = D[\u0027W\u0027].isin(tw).values; tr = ~te\nm, uc = fit(X[tr], y[tr], K)\nP = predict_full(m, uc, X[te], K); ho = P.argmax(1)\nT_ho, C_ho, uw_ho = report(\u0022HELD-OUT 36 WELLS\u0022, y[te], ho, D[\u0027W\u0027].values[te])\nT_ho.to_csv(\u0022geolink_heldout_ci.csv\u0022, index=False)\nfor cname in (\u0027Chalk\u0027, \u0027Halite\u0027):\n    k = [i for i, c in enumerate(classes) if names.get(c) == cname][0]\n    print(f\u0022\\nPer-well held-out recall, {cname}:\u0022)\n    for wi_, w in enumerate(uw_ho):\n        s = C_ho[wi_, k, :].sum()\n        if s: print(f\u0022  well {w}: n={int(s)}, recall={C_ho[wi_, k, k] / s:.3f}\u0022)\nprint(\u0022DONE\u0022)\n","hasSource":true,"language":"python","hasLanguage":true,"kernelType":"script","hasKernelType":true,"slug":"geolink-uncertainty-calibration","hasSlug":true}}
+# Well-level bootstrap intervals, class-by-fold coverage and calibration (paper Section 4.5). Run on Kaggle with Internet ON.
+import subprocess, sys
+subprocess.run([sys.executable, "-m", "pip", "install", "-q", "gdown", "lasio"], check=True)
+import gdown, lasio, glob, zipfile, gc, json
+import numpy as np, pandas as pd, openpyxl
+import xgboost as xgb
+from sklearn.model_selection import StratifiedGroupKFold
+from sklearn.utils.class_weight import compute_sample_weight
+
+RS = 42
+B = ['GR', 'RDEP', 'RHOB', 'NPHI', 'DTC']
+FE = ['GR', 'RDEP_log10', 'RHOB', 'NPHI', 'DTC']
+gdown.download("https://drive.google.com/uc?id=1ZvLG1SRBQB4mDUmPHSc_6kP-ubS5uNCv", "geolink.zip", quiet=False)
+with zipfile.ZipFile("geolink.zip") as z:
+    z.extractall("las")
+files = glob.glob("las/*.las")
+sidx = {f: i for i, f in enumerate(sorted(files))}
+frames = []
+for f in files:
+    try:
+        las = lasio.read(f, engine='normal')
+    except Exception:
+        continue
+    cu = {c.mnemonic.upper(): c.mnemonic for c in las.curves}
+    lc = next((c.mnemonic for c in las.curves if 'LITH' in c.mnemonic.upper()), None)
+    if lc is None or any(b not in cu for b in B):
+        continue
+    wn = las.well['WELL'].value if 'WELL' in las.well else f.split('/')[-1]
+    d = pd.DataFrame({b: np.asarray(las[cu[b]], dtype=np.float32) for b in B})
+    d['L'] = np.round(np.asarray(las[lc], dtype=np.float32), 1)
+    d = d.dropna(); d = d[d['RDEP'] > 0]
+    if len(d) == 0:
+        continue
+    d['WN'] = wn; d['W'] = sidx[f]
+    frames.append(d)
+    del las
+D = pd.concat(frames, ignore_index=True); del frames; gc.collect()
+D['RDEP_log10'] = np.log10(D['RDEP']).astype(np.float32); D = D.drop(columns=['RDEP'])
+vc = D['L'].value_counts()
+D = D[D['L'].isin(vc[vc >= 50].index)].reset_index(drop=True)
+print("Data:", D.shape, "| wells:", D['WN'].nunique(), "| classes:", D['L'].nunique())
+names = {}
+for r in openpyxl.load_workbook(glob.glob("las/**/*.xlsx", recursive=True)[0]).active.iter_rows(values_only=True, min_row=2):
+    if r[0] and r[3] is not None and r[0] != 'NULL':
+        try: names[round(float(r[3]), 1)] = r[0]
+        except Exception: pass
+classes = sorted(D['L'].unique()); K = len(classes)
+cidx = {c: i for i, c in enumerate(classes)}
+y = D['L'].map(cidx).values.astype(np.int32)
+X = D[FE].values.astype(np.float32)
+gn = D['WN'].values
+
+def fit(Xtr, ytr, nc):
+    uc, yi = np.unique(ytr, return_inverse=True)
+    sw = np.sqrt(compute_sample_weight('balanced', yi)).astype(np.float32)
+    m = xgb.XGBClassifier(n_estimators=300, max_depth=6, learning_rate=0.1, random_state=RS,
+                          eval_metric='mlogloss', tree_method='hist')
+    m.fit(Xtr, yi, sample_weight=sw)
+    return m, uc
+
+def predict_full(m, uc, Xte, nc):
+    p = m.predict_proba(Xte)
+    P = np.zeros((len(Xte), nc), dtype=np.float32); P[:, uc] = p
+    return P
+
+oofP = np.zeros((len(y), K), dtype=np.float32); fold = np.zeros(len(y), dtype=np.int32)
+sgkf = StratifiedGroupKFold(n_splits=10, shuffle=True, random_state=RS)
+for fi, (tr, te) in enumerate(sgkf.split(X, y, groups=gn)):
+    m, uc = fit(X[tr], y[tr], K)
+    oofP[te] = predict_full(m, uc, X[te], K); fold[te] = fi
+    del m; gc.collect(); print("fold", fi + 1, flush=True)
+oof = oofP.argmax(1)
+
+def metrics_from_conf(C):
+    tp = np.diag(C).astype(float); sup = C.sum(1).astype(float); pr = C.sum(0).astype(float)
+    rec = np.divide(tp, sup, out=np.zeros(K), where=sup > 0)
+    prec = np.divide(tp, pr, out=np.zeros(K), where=pr > 0)
+    f1 = np.divide(2 * prec * rec, prec + rec, out=np.zeros(K), where=(prec + rec) > 0)
+    pres = sup > 0
+    return tp.sum() / C.sum(), f1[pres].mean(), rec[pres].mean(), rec, pres
+
+def per_well_conf(yt, yp, wells):
+    uw = np.unique(wells); wi = {w: i for i, w in enumerate(uw)}
+    C = np.zeros((len(uw), K, K), dtype=np.int64)
+    np.add.at(C, (np.array([wi[w] for w in wells]), yt, yp), 1)
+    return uw, C
+
+def boot(C, nb=1000, seed=RS):
+    rng = np.random.default_rng(seed); n = C.shape[0]
+    out = []; recs = []
+    for _ in range(nb):
+        s = rng.integers(0, n, n); Cs = C[s].sum(0)
+        a, mf, ba, rec, pres = metrics_from_conf(Cs)
+        out.append((a, mf, ba)); r = rec.copy(); r[~pres] = np.nan; recs.append(r)
+    out = np.array(out); recs = np.array(recs)
+    ci = lambda v: (np.nanpercentile(v, 2.5), np.nanpercentile(v, 97.5))
+    return out, recs, ci
+
+def report(tag, yt, yp, wells):
+    uw, C = per_well_conf(yt, yp, wells)
+    a, mf, ba, rec, pres = metrics_from_conf(C.sum(0))
+    out, recs, ci = boot(C)
+    print(f"\n### {tag}: wells={len(uw)}  accuracy {a:.4f} {tuple(round(float(x),4) for x in ci(out[:,0]))} | macro-F1 {mf:.4f} {tuple(round(float(x),4) for x in ci(out[:,1]))} | balanced acc {ba:.4f} {tuple(round(float(x),4) for x in ci(out[:,2]))}")
+    rows = []
+    for k in range(K):
+        if C.sum(0)[k].sum() == 0: continue
+        lo, hi = ci(recs[:, k]) if np.isfinite(recs[:, k]).any() else (np.nan, np.nan)
+        rows.append({'class': names.get(classes[k], classes[k]), 'wells_with_class': int((C[:, k, :].sum(1) > 0).sum()),
+                     'support': int(C[:, k, :].sum()), 'recall': round(rec[k], 3), 'ci_lo': round(lo, 3), 'ci_hi': round(hi, 3)})
+    T = pd.DataFrame(rows).sort_values('wells_with_class'); print(T.to_string(index=False)); return T, C, uw
+
+T_cv, C_cv, uw_cv = report("CROSS-VALIDATION (10-fold, well-grouped)", y, oof, gn)
+T_cv.to_csv("geolink_cv_ci.csv", index=False)
+
+print("\n### CLASS-BY-FOLD (number of distinct wells containing the class in each test fold)")
+cf = pd.DataFrame({names.get(c, c): [len(set(gn[(fold == f) & (y == cidx[c])])) for f in range(10)] for c in classes}).T
+cf.columns = [f"f{f+1}" for f in range(10)]; cf['folds_present'] = (cf > 0).sum(1); print(cf.to_string())
+cf.to_csv("geolink_class_by_fold.csv")
+
+conf = oofP.max(1); corr = (oof == y).astype(float)
+bins = np.linspace(0, 1, 16); ece = 0.0; rows = []
+for i in range(15):
+    mk = (conf > bins[i]) & (conf <= bins[i + 1])
+    if mk.sum():
+        ece += mk.mean() * abs(corr[mk].mean() - conf[mk].mean()); rows.append((round(bins[i], 2), int(mk.sum()), round(conf[mk].mean(), 3), round(corr[mk].mean(), 3)))
+brier = float(np.mean(np.sum((oofP - np.eye(K, dtype=np.float32)[y]) ** 2, 1)))
+print(f"\n### CALIBRATION (OOF, top-label): ECE={ece:.4f} | multiclass Brier={brier:.4f} | mean confidence={conf.mean():.3f} vs accuracy={corr.mean():.3f}")
+print("bin_lo, n, mean_conf, accuracy:"); [print(r) for r in rows]
+print("class, mean predicted probability of true class, recall")
+for k in range(K):
+    mk = y == k
+    if mk.sum(): print(names.get(classes[k], classes[k]), round(float(oofP[mk, k].mean()), 3), round(float((oof[mk] == k).mean()), 3))
+del oofP; gc.collect()
+
+wl = np.array(sorted(D['W'].unique()))
+tw = set(np.random.default_rng(RS).choice(wl, size=int(round(0.2 * len(wl))), replace=False))
+te = D['W'].isin(tw).values; tr = ~te
+m, uc = fit(X[tr], y[tr], K)
+P = predict_full(m, uc, X[te], K); ho = P.argmax(1)
+T_ho, C_ho, uw_ho = report("HELD-OUT 36 WELLS", y[te], ho, D['W'].values[te])
+T_ho.to_csv("geolink_heldout_ci.csv", index=False)
+for cname in ('Chalk', 'Halite'):
+    k = [i for i, c in enumerate(classes) if names.get(c) == cname][0]
+    print(f"\nPer-well held-out recall, {cname}:")
+    for wi_, w in enumerate(uw_ho):
+        s = C_ho[wi_, k, :].sum()
+        if s: print(f"  well {w}: n={int(s)}, recall={C_ho[wi_, k, k] / s:.3f}")
+print("DONE")
