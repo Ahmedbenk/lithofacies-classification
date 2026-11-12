@@ -15,6 +15,8 @@ The paper tests a calibrated single-model XGBoost baseline, four hybrid mechanis
 | `code/geolink_baseline_kaggle.py` | Geolink: parse 223 LAS files, 10-fold grouped CV baseline | Sec. 4.3 |
 | `code/geolink_pef_test_kaggle.py` | Geolink PEF-inclusion test on the wells that have PEF | Table 4 |
 | `code/generate_logplot_comparison.py` | Actual-vs-predicted well-log plots (run after the SEG pipeline) | Fig. 2 |
+| `code/seg_perwell_analysis.py` | SEG per-well comparison of baseline vs HMM/Viterbi (per-well accuracy, balanced accuracy, macro-F1) | Sec. 2.4 |
+| `code/geolink_heldout_and_signatures_kaggle.py` | Geolink: 20% held-out-well validation (seed 42) and Chalk/Dolomite vs Limestone log-signature comparison | Sec. 4.3, Tables 5-6 |
 | `code/make_paper_figures.py` | Figures 1, 3, 4, 5, 6 | Figs. 1, 3-6 |
 | `geolink/` | Notes and results from the Geolink survey, baseline, diagnosis and PEF test | n/a |
 
