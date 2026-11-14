@@ -1,0 +1,179 @@
+['hidden_test.csv', 'las_files_Lithostrat_data', 'leaderboard_test_features.csv', 'leaderboard_test_target.csv', 'penalty_matrix.npy', 'starter_notebook.ipynb', 'test_code.py', 'train.zip']
+[0.1 min] train (1170511, 11), wells 98
+[3.0 min] 8 curves, fold 1/10
+[5.8 min] 8 curves, fold 2/10
+[8.6 min] 8 curves, fold 3/10
+[11.5 min] 8 curves, fold 4/10
+[14.3 min] 8 curves, fold 5/10
+[17.0 min] 8 curves, fold 6/10
+[19.8 min] 8 curves, fold 7/10
+[22.6 min] 8 curves, fold 8/10
+[25.4 min] 8 curves, fold 9/10
+[28.2 min] 8 curves, fold 10/10
+
+##### FORCE: CROSS-VALIDATION  accuracy 0.6679 macro-F1 0.3677 balanced accuracy 0.3778 (n=1170511, wells=98)
+          class  wells  folds_present  precision  recall    f1  support
+       Basement      1              1      0.000   0.000 0.000      103
+         Halite      3              2      0.988   0.350 0.517     8213
+      Anhydrite      6              5      0.775   0.356 0.488     1085
+          Chalk     11              6      0.484   0.300 0.370    10513
+       Dolomite     37             10      0.028   0.041 0.033     1688
+           Coal     51             10      0.171   0.548 0.260     3820
+           Tuff     55             10      0.195   0.372 0.256    15245
+           Marl     73             10      0.248   0.348 0.290    33329
+      Limestone     94             10      0.434   0.524 0.475    56320
+Sandstone/Shale     97             10      0.296   0.254 0.273   150455
+      Sandstone     98             10      0.632   0.637 0.634   168937
+          Shale     98             10      0.826   0.806 0.816   720803
+
+### RULES: FORCE
+          class  wells  folds    F1  under       top_wrong  share_of_errors  n_k_to_j  n_j_to_k  pct_of_class  pct_of_partner  scarce  adjacent  mutual  count_ratio
+       Basement      1      1 0.000   True       Limestone             0.78        80         1          0.78            0.00    True     False   False        80.00
+         Halite      3      2 0.517  False       Limestone             0.82      4355         8          0.53            0.00    True     False   False       544.38
+      Anhydrite      6      5 0.488  False       Limestone             0.47       330        19          0.30            0.00    True     False   False        17.37
+          Chalk     11      6 0.370  False       Limestone             0.64      4704      2179          0.45            0.04    True      True   False         2.16
+       Dolomite     37     10 0.033   True           Shale             0.42       684      1115          0.41            0.00   False     False   False         1.63
+           Coal     51     10 0.260   True       Sandstone             0.47       812      2540          0.21            0.02   False     False   False         3.13
+           Tuff     55     10 0.256   True           Shale             0.65      6185     13540          0.41            0.02   False     False   False         2.19
+           Marl     73     10 0.290   True           Shale             0.53     11473     21745          0.34            0.03   False     False   False         1.90
+      Limestone     94     10 0.475  False           Shale             0.31      8318     10280          0.15            0.01   False     False   False         1.24
+Sandstone/Shale     97     10 0.273   True           Shale             0.63     70407     63526          0.47            0.09   False      True    True         1.11
+      Sandstone     98     10 0.634  False           Shale             0.38     23630     25770          0.14            0.04   False      True   False         1.09
+          Shale     98     10 0.816  False Sandstone/Shale             0.45     63526     70407          0.09            0.47   False      True    True         1.11
+
+95% WELL-LEVEL BOOTSTRAP (FORCE CV, 1000 resamples of 98 wells): accuracy (np.float64(0.6331966123775964), np.float64(0.7002277212112358)) macro-F1 (np.float64(0.30218507761298796), np.float64(0.41936804746862894)) balanced accuracy (np.float64(0.33336149511841523), np.float64(0.4357235946107422))
+class | wells | CV recall | 95% interval | share of resamples with class present
+Basement | 1 | 0.000 | (0.000, 0.000) | 0.64
+Halite | 3 | 0.350 | (0.000, 0.737) | 0.95
+Anhydrite | 6 | 0.356 | (0.000, 0.516) | 1.00
+Chalk | 11 | 0.300 | (0.012, 0.547) | 1.00
+Dolomite | 37 | 0.041 | (0.010, 0.073) | 1.00
+Coal | 51 | 0.548 | (0.469, 0.638) | 1.00
+Tuff | 55 | 0.372 | (0.297, 0.459) | 1.00
+Marl | 73 | 0.348 | (0.224, 0.466) | 1.00
+Limestone | 94 | 0.524 | (0.413, 0.616) | 1.00
+Sandstone/Shale | 97 | 0.254 | (0.198, 0.328) | 1.00
+Sandstone | 98 | 0.637 | (0.583, 0.682) | 1.00
+Shale | 98 | 0.806 | (0.768, 0.840) | 1.00
+
+CLASS-BY-FOLD SAMPLE COUNTS
+          class  wells  folds_present                                                       samples_per_fold
+       Basement      1              1                                       [0, 0, 0, 0, 0, 103, 0, 0, 0, 0]
+         Halite      3              2                                   [0, 0, 4314, 0, 0, 0, 0, 0, 0, 3899]
+      Anhydrite      6              5                                  [0, 0, 299, 75, 0, 483, 0, 0, 5, 223]
+          Chalk     11              6                         [2263, 434, 3484, 0, 0, 676, 0, 0, 1081, 2575]
+       Dolomite     37             10                        [149, 38, 214, 65, 355, 221, 145, 208, 80, 213]
+           Coal     51             10                     [461, 371, 122, 232, 529, 140, 631, 758, 320, 256]
+           Tuff     55             10             [764, 1207, 1014, 1893, 1256, 1650, 3676, 1104, 2014, 667]
+           Marl     73             10           [2293, 4889, 2978, 3719, 3138, 1993, 2027, 2726, 6802, 2764]
+      Limestone     94             10           [4705, 6738, 5836, 4687, 6438, 5449, 4288, 6178, 9416, 2585]
+Sandstone/Shale     97             10  [14448, 22778, 11699, 15543, 8995, 12442, 12020, 10548, 28549, 13433]
+      Sandstone     98             10  [15784, 17575, 9603, 16037, 19019, 12526, 23265, 22745, 22277, 10106]
+          Shale     98             10 [76993, 72483, 56593, 73239, 68817, 61873, 63886, 76778, 83485, 86656]
+CALIBRATION FORCE CV: accuracy 0.6679, mean confidence 0.6924, ECE 0.0320, Brier 0.4662
+   bin ('(0.1,0.2]', 35, np.float32(0.192), np.float64(0.171))
+   bin ('(0.2,0.3]', 16213, np.float32(0.275), np.float64(0.286))
+   bin ('(0.3,0.4]', 93851, np.float32(0.357), np.float64(0.385))
+   bin ('(0.4,0.5]', 167283, np.float32(0.453), np.float64(0.462))
+   bin ('(0.5,0.6]', 163265, np.float32(0.548), np.float64(0.533))
+   bin ('(0.6,0.7]', 141480, np.float32(0.649), np.float64(0.612))
+   bin ('(0.7,0.8]', 145659, np.float32(0.751), np.float64(0.697))
+   bin ('(0.8,0.9]', 171163, np.float32(0.852), np.float64(0.805))
+   bin ('(0.9,1.0]', 271562, np.float32(0.958), np.float64(0.923))
+
+##### FORCE BLIND SET (official leaderboard wells), model trained once on all 98 training wells
+[31.2 min] final model fitted
+reading force/lithology_competition/data/leaderboard_test_features.csv
+reading force/lithology_competition/data/leaderboard_test_target.csv
+features: (136786, 27) ['WELL', 'DEPTH_MD', 'X_LOC', 'Y_LOC', 'Z_LOC', 'GROUP', 'FORMATION', 'CALI', 'RSHA', 'RMED', 'RDEP', 'RHOB', 'GR', 'SGR', 'NPHI', 'PEF', 'DTC', 'SP', 'BS', 'ROP', 'DTS', 'DCAL', 'DRHO', 'MUDWEIGHT', 'RMIC', 'ROPA', 'RXO']
+target: (136786, 3) ['WELL', 'DEPTH_MD', 'FORCE_2020_LITHOFACIES_LITHOLOGY']
+Blind set: 136,786 samples, 10 wells. Accuracy 0.6942, macro-F1 0.3340, balanced accuracy 0.3814
+95% well-level bootstrap, blind (10 wells): accuracy (np.float64(0.6089493145890844), np.float64(0.7846757537919692)) macro-F1 (np.float64(0.3117520204076155), np.float64(0.3980742924043471)) balanced accuracy (np.float64(0.35097670194606506), np.float64(0.4538215043608578))
+          class  train_wells  blind_wells  blind_samples  blind_precision  blind_recall  blind_f1  cv_recall
+       Basement            1            0              0            0.000           NaN     0.000      0.000
+         Halite            3            0              0            0.000           NaN     0.000      0.350
+      Anhydrite            6            2            125            0.000         0.000     0.000      0.356
+          Chalk           11            1            625            0.126         0.027     0.045      0.300
+       Dolomite           37            5            416            0.000         0.000     0.000      0.041
+           Coal           51            7            690            0.376         0.668     0.481      0.548
+           Tuff           55            6           1245            0.193         0.454     0.271      0.372
+           Marl           73            9           3306            0.167         0.257     0.203      0.348
+      Limestone           94           10           4798            0.352         0.475     0.404      0.524
+Sandstone/Shale           97           10          17558            0.334         0.381     0.356      0.254
+      Sandstone           98           10          24048            0.752         0.772     0.762      0.637
+          Shale           98           10          83975            0.861         0.781     0.819      0.806
+
+PER-WELL BLIND RECALL for Chalk, Anhydrite, Dolomite
+  Chalk | well 15/9-14 | samples 625 | recall 0.027
+  Anhydrite | well 25/10-10 | samples 115 | recall 0.000
+  Anhydrite | well 34/3-3 A | samples 10 | recall 0.000
+  Dolomite | well 25/10-10 | samples 21 | recall 0.000
+  Dolomite | well 29/3-1 | samples 185 | recall 0.000
+  Dolomite | well 34/10-16 R | samples 33 | recall 0.000
+  Dolomite | well 34/3-3 A | samples 118 | recall 0.000
+  Dolomite | well 35/6-2 S | samples 59 | recall 0.000
+CALIBRATION FORCE blind: accuracy 0.6942, mean confidence 0.6618, ECE 0.0629, Brier 0.4469
+   bin ('(0.1,0.2]', 1, np.float32(0.191), np.float64(0.0))
+   bin ('(0.2,0.3]', 1704, np.float32(0.279), np.float64(0.326))
+   bin ('(0.3,0.4]', 14031, np.float32(0.358), np.float64(0.444))
+   bin ('(0.4,0.5]', 22952, np.float32(0.45), np.float64(0.522))
+   bin ('(0.5,0.6]', 19084, np.float32(0.548), np.float64(0.609))
+   bin ('(0.6,0.7]', 16529, np.float32(0.649), np.float64(0.723))
+   bin ('(0.7,0.8]', 18625, np.float32(0.751), np.float64(0.803))
+   bin ('(0.8,0.9]', 22548, np.float32(0.851), np.float64(0.861))
+   bin ('(0.9,1.0]', 21312, np.float32(0.954), np.float64(0.856))
+[34.1 min] 7 curves, fold 1/10
+[36.9 min] 7 curves, fold 2/10
+[39.6 min] 7 curves, fold 3/10
+[42.5 min] 7 curves, fold 4/10
+[45.2 min] 7 curves, fold 5/10
+[47.8 min] 7 curves, fold 6/10
+[50.6 min] 7 curves, fold 7/10
+[53.4 min] 7 curves, fold 8/10
+[56.1 min] 7 curves, fold 9/10
+[58.8 min] 7 curves, fold 10/10
+[58.8 min] no-PEF CV done
+
+##### FORCE PEF TEST (paired, well-level): without PEF (7 curves) vs baseline with PEF (8 curves)
+class | wells | support | F1 without | F1 with | delta | 95% paired well-level interval | share of resamples with delta>0
+Sandstone | 98 | 168937 | 0.623 | 0.634 | +0.011 | (-0.006, +0.028) | 0.92
+Sandstone/Shale | 97 | 150455 | 0.280 | 0.273 | -0.007 | (-0.021, +0.005) | 0.15
+Shale | 98 | 720803 | 0.811 | 0.816 | +0.005 | (-0.001, +0.010) | 0.94
+Marl | 73 | 33329 | 0.285 | 0.290 | +0.004 | (-0.026, +0.031) | 0.63
+Dolomite | 37 | 1688 | 0.023 | 0.033 | +0.010 | (-0.002, +0.019) | 0.95
+Limestone | 94 | 56320 | 0.457 | 0.475 | +0.018 | (-0.011, +0.055) | 0.87
+Chalk | 11 | 10513 | 0.315 | 0.370 | +0.056 | (-0.022, +0.152) | 0.89
+Halite | 3 | 8213 | 0.529 | 0.517 | -0.013 | (-0.017, +0.000) | 0.00
+Anhydrite | 6 | 1085 | 0.627 | 0.488 | -0.139 | (-0.483, +0.003) | 0.08
+Tuff | 55 | 15245 | 0.244 | 0.256 | +0.012 | (-0.007, +0.033) | 0.89
+Coal | 51 | 3820 | 0.291 | 0.260 | -0.031 | (-0.061, +0.026) | 0.16
+Basement | 1 | 103 | 0.000 | 0.000 | +0.000 | (+0.000, +0.000) | 0.00
+macro-F1 without 0.3738 with 0.3677 delta -0.0062 (-0.0409, +0.0177)
+[61.8 min] 9 curves, fold 1/10
+[64.7 min] 9 curves, fold 2/10
+[67.6 min] 9 curves, fold 3/10
+[70.5 min] 9 curves, fold 4/10
+[73.4 min] 9 curves, fold 5/10
+[76.1 min] 9 curves, fold 6/10
+[79.0 min] 9 curves, fold 7/10
+[81.9 min] 9 curves, fold 8/10
+[84.8 min] 9 curves, fold 9/10
+[87.6 min] 9 curves, fold 10/10
+[87.6 min] +NPHI CV done
+
+##### FORCE NPHI TEST (paired, well-level): baseline (8 curves) vs baseline plus NPHI (9 curves)
+class | wells | support | F1 without | F1 with | delta | 95% paired well-level interval | share of resamples with delta>0
+Sandstone | 98 | 168937 | 0.634 | 0.657 | +0.023 | (+0.009, +0.037) | 1.00
+Sandstone/Shale | 97 | 150455 | 0.273 | 0.281 | +0.008 | (-0.005, +0.020) | 0.88
+Shale | 98 | 720803 | 0.816 | 0.816 | +0.000 | (-0.010, +0.007) | 0.56
+Marl | 73 | 33329 | 0.290 | 0.284 | -0.006 | (-0.052, +0.041) | 0.44
+Dolomite | 37 | 1688 | 0.033 | 0.022 | -0.011 | (-0.021, +0.003) | 0.09
+Limestone | 94 | 56320 | 0.475 | 0.480 | +0.006 | (-0.010, +0.022) | 0.76
+Chalk | 11 | 10513 | 0.370 | 0.353 | -0.017 | (-0.063, +0.030) | 0.33
+Halite | 3 | 8213 | 0.517 | 0.518 | +0.002 | (+0.000, +0.003) | 0.61
+Anhydrite | 6 | 1085 | 0.488 | 0.459 | -0.029 | (-0.287, +0.049) | 0.30
+Tuff | 55 | 15245 | 0.256 | 0.229 | -0.027 | (-0.074, +0.008) | 0.09
+Coal | 51 | 3820 | 0.260 | 0.369 | +0.109 | (+0.031, +0.184) | 1.00
+Basement | 1 | 103 | 0.000 | 0.000 | +0.000 | (+0.000, +0.000) | 0.00
+macro-F1 without 0.3677 with 0.3724 delta +0.0047 (-0.0204, +0.0183)
+DONE
