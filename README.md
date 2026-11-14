@@ -51,3 +51,13 @@ Python 3.10+ with `numpy`, `pandas`, `scikit-learn`, `xgboost`, `matplotlib`, `o
 ## License
 
 The code is released under the MIT License (see `LICENSE`). The datasets keep their own licenses.
+
+
+## Final unified runs (v1.1)
+
+All FORCE and Geolink results in the paper (Tables 4 and 6-11, Figures 3-5) come from one run of one script per dataset, using a single fold assignment:
+
+- `code/force_unified_kaggle.py` - FORCE 10-fold CV, rules, bootstrap intervals, calibration, official leaderboard blind-set scoring, PEF and NPHI paired tests. Log: `results/force_unified_log.txt`; tables: `results/force_blind_*.csv`.
+- `code/geolink_unified_kaggle.py` - Geolink 10-fold CV, rules, intervals, 36-well hold-out, PEF paired test, log signatures. Log: `results/geolink_unified_log.txt`; table: `results/geolink_heldout_results.csv`.
+
+The earlier per-analysis scripts remain for history; where they differ from the unified runs (Geolink fold/row order), the unified runs are the ones reported.
