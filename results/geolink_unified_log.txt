@@ -1,0 +1,238 @@
+LAS files: 223
+[3.0 min] data (1184461, 8), wells 181, classes 22
+[8.3 min] fold 1/10
+[13.4 min] fold 2/10
+[18.5 min] fold 3/10
+[23.6 min] fold 4/10
+[28.4 min] fold 5/10
+[33.5 min] fold 6/10
+[38.6 min] fold 7/10
+[43.7 min] fold 8/10
+[48.3 min] fold 9/10
+[53.4 min] fold 10/10
+
+##### GEOLINK: CROSS-VALIDATION  accuracy 0.3880 macro-F1 0.2682 balanced accuracy 0.2923 (n=1184461, wells=181)
+                 class  wells  folds_present  precision  recall    f1  support
+               Kaïnite      1              1      0.000   0.000 0.000       54
+            Carnallite      2              1      0.000   0.000 0.000      414
+                Halite      5              3      0.463   0.200 0.279     1659
+          Conglomerate      7              6      0.000   0.000 0.000     1013
+              Dolomite      8              6      0.007   0.015 0.010     3075
+                   Gap      9              6      0.002   0.007 0.004      600
+             Anhydrite     10              7      0.579   0.749 0.653     2691
+      Porous Limestone     14              8      0.416   0.438 0.426    10709
+                 Chalk     16             10      0.259   0.231 0.244    13530
+              Cinerite     66             10      0.189   0.408 0.258    15408
+             Limestone     69             10      0.500   0.523 0.511    44152
+                  Coal     87             10      0.279   0.663 0.393     5113
+            Sandy Silt    101             10      0.099   0.057 0.072    45601
+Argillaceous Limestone    102             10      0.228   0.279 0.251    39655
+             Sandstone    110             10      0.293   0.308 0.300    36550
+      Cross Bedded Sst    128             10      0.326   0.378 0.350    75559
+             Marlstone    145             10      0.413   0.490 0.448   121200
+     Calcareous Cement    164             10      0.072   0.059 0.065    26222
+            Silty Sand    174             10      0.324   0.342 0.333    83252
+           Silty Shale    175             10      0.399   0.469 0.431    92510
+            Shaly Silt    179             10      0.481   0.468 0.474   276702
+                  Silt    180             10      0.458   0.350 0.397   288792
+
+### RULES: GEOLINK
+                 class  wells  folds    F1  under              top_wrong  share_of_errors  n_k_to_j  n_j_to_k  pct_of_class  pct_of_partner  scarce  adjacent  mutual  count_ratio
+               Kaïnite      1      1 0.000   True             Silty Sand             0.31        17        44          0.31            0.00    True     False   False         2.59
+            Carnallite      2      1 0.000   True                   Coal             0.30       125         9          0.30            0.00    True     False   False        13.89
+                Halite      5      3 0.279   True       Cross Bedded Sst             0.41       542        63          0.33            0.00    True     False   False         8.60
+          Conglomerate      7      6 0.000   True                   Silt             0.32       320      1747          0.32            0.01    True      True   False         5.46
+              Dolomite      8      6 0.010   True             Shaly Silt             0.44      1343      2390          0.44            0.01    True     False   False         1.78
+                   Gap      9      6 0.004   True              Marlstone             0.21       123       869          0.20            0.01    True     False   False         7.07
+             Anhydrite     10      7 0.653  False             Shaly Silt             0.22       150       452          0.06            0.00    True     False   False         3.01
+      Porous Limestone     14      8 0.426  False              Limestone             0.40      2428      2027          0.23            0.05   False      True   False         1.20
+                 Chalk     16     10 0.244   True              Limestone             0.46      4808      4415          0.36            0.10   False      True   False         1.09
+              Cinerite     66     10 0.258   True                   Silt             0.55      5012     13566          0.33            0.05   False     False   False         2.71
+             Limestone     69     10 0.511  False Argillaceous Limestone             0.26      5515      5037          0.12            0.13   False     False   False         1.09
+                  Coal     87     10 0.393  False                   Silt             0.26       450      2881          0.09            0.01   False     False   False         6.40
+            Sandy Silt    101     10 0.072   True                   Silt             0.31     13272      8698          0.29            0.03   False      True   False         1.53
+Argillaceous Limestone    102     10 0.251   True              Marlstone             0.24      6832      8215          0.17            0.07   False     False   False         1.20
+             Sandstone    110     10 0.300  False             Silty Sand             0.45     11263     11594          0.31            0.14   False      True   False         1.03
+      Cross Bedded Sst    128     10 0.350  False             Silty Sand             0.26     12235     14292          0.16            0.17   False     False    True         1.17
+             Marlstone    145     10 0.448  False                   Silt             0.28     17224     28962          0.14            0.10   False     False   False         1.68
+     Calcareous Cement    164     10 0.065   True                   Silt             0.21      5093      4938          0.19            0.02   False     False   False         1.03
+            Silty Sand    174     10 0.333  False       Cross Bedded Sst             0.26     14292     12235          0.17            0.16   False     False    True         1.17
+           Silty Shale    175     10 0.431  False             Shaly Silt             0.60     29285     35772          0.32            0.13   False      True   False         1.22
+            Shaly Silt    179     10 0.474  False                   Silt             0.34     49728     69438          0.18            0.24   False      True   False         1.40
+                  Silt    180     10 0.397  False             Shaly Silt             0.37     69438     49728          0.24            0.18   False      True   False         1.40
+
+95% WELL-LEVEL BOOTSTRAP (GEOLINK CV, 1000 resamples of 181 wells): accuracy (np.float64(0.36540276348549106), np.float64(0.41144015296331815)) macro-F1 (np.float64(0.24909040476303992), np.float64(0.3082064553623426)) balanced accuracy (np.float64(0.277192459167788), np.float64(0.34340913544249424))
+class | wells | CV recall | 95% interval | share of resamples with class present
+Kaïnite | 1 | 0.000 | (0.000, 0.000) | 0.63
+Carnallite | 2 | 0.000 | (0.000, 0.000) | 0.88
+Halite | 5 | 0.200 | (0.070, 0.797) | 0.99
+Conglomerate | 7 | 0.000 | (0.000, 0.000) | 1.00
+Dolomite | 8 | 0.015 | (0.000, 0.145) | 1.00
+Gap | 9 | 0.007 | (0.000, 0.018) | 1.00
+Anhydrite | 10 | 0.749 | (0.611, 0.861) | 1.00
+Porous Limestone | 14 | 0.438 | (0.314, 0.548) | 1.00
+Chalk | 16 | 0.231 | (0.122, 0.353) | 1.00
+Cinerite | 66 | 0.408 | (0.327, 0.510) | 1.00
+Limestone | 69 | 0.523 | (0.413, 0.639) | 1.00
+Coal | 87 | 0.663 | (0.588, 0.725) | 1.00
+Sandy Silt | 101 | 0.057 | (0.042, 0.074) | 1.00
+Argillaceous Limestone | 102 | 0.279 | (0.185, 0.381) | 1.00
+Sandstone | 110 | 0.308 | (0.247, 0.382) | 1.00
+Cross Bedded Sst | 128 | 0.378 | (0.335, 0.427) | 1.00
+Marlstone | 145 | 0.490 | (0.396, 0.559) | 1.00
+Calcareous Cement | 164 | 0.059 | (0.039, 0.084) | 1.00
+Silty Sand | 174 | 0.342 | (0.299, 0.386) | 1.00
+Silty Shale | 175 | 0.469 | (0.372, 0.558) | 1.00
+Shaly Silt | 179 | 0.468 | (0.427, 0.512) | 1.00
+Silt | 180 | 0.350 | (0.313, 0.387) | 1.00
+
+CLASS-BY-FOLD SAMPLE COUNTS
+                 class  wells  folds_present                                                       samples_per_fold
+               Kaïnite      1              1                                        [0, 0, 0, 0, 0, 0, 0, 0, 54, 0]
+            Carnallite      2              1                                       [0, 0, 0, 0, 0, 0, 0, 0, 414, 0]
+                Halite      5              3                                    [0, 0, 0, 711, 0, 26, 0, 0, 922, 0]
+          Conglomerate      7              6                                  [44, 0, 764, 0, 23, 0, 24, 154, 4, 0]
+              Dolomite      8              6                               [71, 0, 66, 97, 0, 2554, 0, 100, 187, 0]
+                   Gap      9              6                                [0, 0, 0, 10, 15, 272, 0, 113, 162, 28]
+             Anhydrite     10              7                            [288, 0, 225, 779, 0, 42, 83, 1102, 172, 0]
+      Porous Limestone     14              8                    [1300, 1124, 634, 2560, 659, 2137, 751, 1544, 0, 0]
+                 Chalk     16             10               [1470, 723, 1278, 2732, 688, 2314, 1238, 2001, 65, 1021]
+              Cinerite     66             10             [1385, 2193, 3299, 1236, 2188, 755, 1244, 1209, 1249, 650]
+             Limestone     69             10           [2428, 258, 3805, 4477, 13043, 4414, 3311, 2889, 4026, 5501]
+                  Coal     87             10                     [451, 651, 470, 383, 742, 386, 479, 784, 268, 499]
+            Sandy Silt    101             10           [2848, 5561, 3650, 8232, 4494, 6879, 1873, 5773, 2349, 3942]
+Argillaceous Limestone    102             10           [1136, 3838, 6457, 4501, 5157, 4324, 2840, 2677, 2970, 5755]
+             Sandstone    110             10           [2657, 2373, 1975, 4354, 4255, 6148, 2952, 2884, 3158, 5794]
+      Cross Bedded Sst    128             10          [6639, 7369, 6033, 8725, 17603, 3141, 8644, 6420, 6264, 4721]
+             Marlstone    145             10    [11042, 12540, 11989, 7373, 14289, 7575, 17912, 16226, 8199, 14055]
+     Calcareous Cement    164             10            [1955, 2187, 5213, 910, 3008, 3028, 1364, 2001, 2580, 3976]
+            Silty Sand    174             10       [7601, 10074, 3997, 7852, 10961, 11246, 7408, 10413, 7086, 6614]
+           Silty Shale    175             10       [4874, 9377, 13269, 7227, 12110, 8881, 6358, 11909, 7823, 10682]
+            Shaly Silt    179             10 [20141, 25822, 19319, 30301, 43361, 25916, 24973, 40826, 22328, 23715]
+                  Silt    180             10 [20849, 22737, 21815, 36304, 44541, 26540, 26138, 38861, 26861, 24146]
+CALIBRATION GEOLINK CV: accuracy 0.3880, mean confidence 0.4718, ECE 0.0839, Brier 0.7685
+   bin ('(0.1,0.2]', 4780, np.float32(0.185), np.float64(0.201))
+   bin ('(0.2,0.3]', 132357, np.float32(0.265), np.float64(0.261))
+   bin ('(0.3,0.4]', 307554, np.float32(0.352), np.float64(0.324))
+   bin ('(0.4,0.5]', 316145, np.float32(0.448), np.float64(0.406))
+   bin ('(0.5,0.6]', 202862, np.float32(0.545), np.float64(0.449))
+   bin ('(0.6,0.7]', 102343, np.float32(0.645), np.float64(0.452))
+   bin ('(0.7,0.8]', 59940, np.float32(0.747), np.float64(0.479))
+   bin ('(0.8,0.9]', 36250, np.float32(0.845), np.float64(0.493))
+   bin ('(0.9,1.0]', 22230, np.float32(0.948), np.float64(0.553))
+
+##### GEOLINK HELD-OUT: 36 of 181 wells held out; train rows 955,029, test rows 229,432
+Held-out accuracy 0.3442, macro-F1 0.2210, balanced accuracy 0.2773
+95% well-level bootstrap, held-out (36 wells): accuracy (np.float64(0.2905683937322471), np.float64(0.3999642429291037)) macro-F1 (np.float64(0.16421467023642503), np.float64(0.2650433815764165)) balanced accuracy (np.float64(0.2254487489863615), np.float64(0.33522396922362196))
+                 class  train_wells  held_out_wells  held_out_samples  held_out_recall  cv_recall   diff
+            Carnallite            0               2               414            0.000      0.000  0.000
+               Kaïnite            0               1                54            0.000      0.000  0.000
+                Halite            2               3               948            0.092      0.200 -0.108
+          Conglomerate            4               3               172            0.000      0.000  0.000
+             Anhydrite            6               4               297            0.771      0.749  0.022
+              Dolomite            6               2                81            0.012      0.015 -0.003
+                   Gap            6               3                37            0.000      0.007 -0.007
+      Porous Limestone           12               2              1435            0.366      0.438 -0.072
+                 Chalk           13               3              1607            0.061      0.231 -0.170
+              Cinerite           53              13              2538            0.698      0.408  0.290
+             Limestone           56              13              3845            0.539      0.523  0.016
+                  Coal           71              16               968            0.714      0.663  0.051
+            Sandy Silt           79              22              9056            0.084      0.057  0.027
+Argillaceous Limestone           87              15              2122            0.197      0.279 -0.083
+             Sandstone           89              21              5556            0.282      0.308 -0.026
+      Cross Bedded Sst          105              23             18337            0.326      0.378 -0.052
+             Marlstone          115              30             15214            0.356      0.490 -0.134
+     Calcareous Cement          129              35              3695            0.077      0.059  0.019
+            Silty Sand          139              35             16002            0.337      0.342 -0.004
+           Silty Shale          140              35             18999            0.493      0.469  0.024
+            Shaly Silt          143              36             62463            0.419      0.468 -0.049
+                  Silt          144              36             65592            0.277      0.350 -0.073
+Spearman rho, training wells vs held-out recall (classes with >= 50 held-out samples, n=21): 0.39
+Spearman rho, training wells vs CV recall, same classes: 0.43
+
+PER-WELL HELD-OUT RECALL for Chalk, Halite, Dolomite, Anhydrite
+  Chalk | well 16/10-1 Alpha | samples 1209 | recall 0.081
+  Chalk | well 16/10-5 Isbjoern | samples 333 | recall 0.000
+  Chalk | well 17/11-1 | samples 65 | recall 0.000
+  Halite | well 16/10-1 Alpha | samples 26 | recall 0.000
+  Halite | well 17/11-1 | samples 11 | recall 0.091
+  Halite | well 17/4-1 | samples 911 | recall 0.094
+  Dolomite | well 16/2-6 | samples 66 | recall 0.015
+  Dolomite | well 35/3-5 | samples 15 | recall 0.000
+  Anhydrite | well 15/9-9 | samples 83 | recall 0.952
+  Anhydrite | well 16/10-1 Alpha | samples 42 | recall 1.000
+  Anhydrite | well 17/11-1 | samples 1 | recall 0.000
+  Anhydrite | well 17/4-1 | samples 171 | recall 0.632
+CALIBRATION GEOLINK held-out: accuracy 0.3442, mean confidence 0.4861, ECE 0.1419, Brier 0.8249
+   bin ('(0.1,0.2]', 449, np.float32(0.188), np.float64(0.147))
+   bin ('(0.2,0.3]', 23857, np.float32(0.268), np.float64(0.229))
+   bin ('(0.3,0.4]', 57524, np.float32(0.352), np.float64(0.307))
+   bin ('(0.4,0.5]', 59892, np.float32(0.448), np.float64(0.386))
+   bin ('(0.5,0.6]', 37851, np.float32(0.544), np.float64(0.411))
+   bin ('(0.6,0.7]', 19312, np.float32(0.646), np.float64(0.357))
+   bin ('(0.7,0.8]', 14498, np.float32(0.749), np.float64(0.317))
+   bin ('(0.8,0.9]', 10943, np.float32(0.846), np.float64(0.333))
+   bin ('(0.9,1.0]', 5106, np.float32(0.936), np.float64(0.384))
+[60.6 min] PEF subset (439245, 9), wells 85, classes 19
+[62.3 min] fold 1/10
+[64.0 min] fold 2/10
+[65.7 min] fold 3/10
+[67.3 min] fold 4/10
+[68.9 min] fold 5/10
+[70.6 min] fold 6/10
+[72.3 min] fold 7/10
+[73.9 min] fold 8/10
+[75.6 min] fold 9/10
+[77.2 min] fold 10/10
+[77.2 min] no-PEF done
+[78.9 min] fold 1/10
+[80.7 min] fold 2/10
+[82.5 min] fold 3/10
+[84.2 min] fold 4/10
+[85.9 min] fold 5/10
+[87.7 min] fold 6/10
+[89.4 min] fold 7/10
+[91.2 min] fold 8/10
+[92.9 min] fold 9/10
+[94.7 min] fold 10/10
+[94.7 min] PEF done
+
+##### GEOLINK PEF TEST (paired, well-level)
+class | wells | support | F1 without | F1 with | delta | 95% paired well-level interval | share of resamples with delta>0
+Sandstone | 50 | 15133 | 0.289 | 0.256 | -0.033 | (-0.065, -0.004) | 0.02
+Silty Sand | 82 | 31626 | 0.316 | 0.291 | -0.025 | (-0.055, +0.001) | 0.03
+Cross Bedded Sst | 52 | 20293 | 0.262 | 0.269 | +0.007 | (-0.031, +0.043) | 0.62
+Sandy Silt | 47 | 19349 | 0.077 | 0.066 | -0.011 | (-0.030, +0.009) | 0.15
+Silt | 85 | 98745 | 0.418 | 0.426 | +0.008 | (-0.003, +0.021) | 0.92
+Shaly Silt | 84 | 97243 | 0.464 | 0.470 | +0.006 | (-0.006, +0.019) | 0.84
+Silty Shale | 80 | 42717 | 0.481 | 0.495 | +0.014 | (-0.005, +0.030) | 0.93
+Chalk | 8 | 7214 | 0.264 | 0.288 | +0.024 | (-0.004, +0.051) | 0.94
+Porous Limestone | 7 | 4885 | 0.401 | 0.397 | -0.003 | (-0.085, +0.056) | 0.48
+Limestone | 31 | 17035 | 0.437 | 0.476 | +0.039 | (+0.008, +0.069) | 0.99
+Argillaceous Limestone | 46 | 13316 | 0.271 | 0.265 | -0.006 | (-0.031, +0.018) | 0.36
+Marlstone | 68 | 51769 | 0.515 | 0.514 | -0.001 | (-0.025, +0.019) | 0.47
+Dolomite | 3 | 2679 | 0.000 | 0.000 | +0.000 | (+0.000, +0.000) | 0.00
+Calcareous Cement | 76 | 9474 | 0.070 | 0.045 | -0.026 | (-0.057, +0.002) | 0.04
+Conglomerate | 3 | 58 | 0.000 | 0.000 | +0.000 | (+0.000, +0.000) | 0.00
+Coal | 37 | 2452 | 0.434 | 0.443 | +0.008 | (-0.019, +0.041) | 0.71
+Cinerite | 22 | 4772 | 0.219 | 0.236 | +0.018 | (-0.013, +0.044) | 0.90
+Anhydrite | 2 | 329 | 0.253 | 0.256 | +0.002 | (-0.030, +0.049) | 0.45
+Gap | 4 | 156 | 0.000 | 0.000 | +0.000 | (+0.000, +0.000) | 0.00
+macro-F1 without 0.2721 with 0.2732 delta +0.0011 (-0.0077, +0.0092)
+
+##### GEOLINK LOG SIGNATURES (median [25th, 75th percentile])
+
+-- all samples --
+Limestone (69 wells): {'GR': '20.36 [14.56, 29.26]', 'RDEP_log10': '0.55 [0.36, 0.75]', 'RHOB': '2.54 [2.46, 2.59]', 'NPHI': '0.15 [0.10, 0.21]', 'DTC': '72.12 [65.39, 80.60]'}
+Chalk (16 wells): {'GR': '13.02 [10.09, 20.25]', 'RDEP_log10': '0.52 [0.28, 0.70]', 'RHOB': '2.53 [2.48, 2.57]', 'NPHI': '0.12 [0.09, 0.15]', 'DTC': '67.54 [62.90, 73.50]'}
+Dolomite (8 wells): {'GR': '64.60 [60.54, 68.16]', 'RDEP_log10': '0.21 [0.18, 0.26]', 'RHOB': '2.41 [2.38, 2.46]', 'NPHI': '0.35 [0.33, 0.37]', 'DTC': '106.29 [101.55, 110.72]'}
+AUC Chalk vs Limestone: {'GR': np.float64(0.32), 'RDEP_log10': np.float64(0.45), 'RHOB': np.float64(0.47), 'NPHI': np.float64(0.37), 'DTC': np.float64(0.36)}
+AUC Dolomite vs Limestone: {'GR': np.float64(0.95), 'RDEP_log10': np.float64(0.17), 'RHOB': np.float64(0.26), 'NPHI': np.float64(0.91), 'DTC': np.float64(0.84)}
+
+-- capped at 2,000 samples per well --
+Limestone (69 wells): {'GR': '20.10 [14.52, 29.57]', 'RDEP_log10': '0.56 [0.36, 0.77]', 'RHOB': '2.54 [2.44, 2.59]', 'NPHI': '0.15 [0.10, 0.21]', 'DTC': '71.98 [65.15, 80.78]'}
+Chalk (16 wells): {'GR': '13.02 [10.09, 20.25]', 'RDEP_log10': '0.52 [0.28, 0.70]', 'RHOB': '2.53 [2.48, 2.57]', 'NPHI': '0.12 [0.09, 0.15]', 'DTC': '67.54 [62.90, 73.50]'}
+Dolomite (8 wells): {'GR': '64.35 [59.83, 68.09]', 'RDEP_log10': '0.21 [0.18, 0.26]', 'RHOB': '2.42 [2.38, 2.46]', 'NPHI': '0.35 [0.32, 0.37]', 'DTC': '106.03 [100.72, 110.66]'}
+AUC Chalk vs Limestone: {'GR': np.float64(0.31), 'RDEP_log10': np.float64(0.44), 'RHOB': np.float64(0.48), 'NPHI': np.float64(0.38), 'DTC': np.float64(0.37)}
+AUC Dolomite vs Limestone: {'GR': np.float64(0.95), 'RDEP_log10': np.float64(0.19), 'RHOB': np.float64(0.29), 'NPHI': np.float64(0.89), 'DTC': np.float64(0.81)}
+DONE
