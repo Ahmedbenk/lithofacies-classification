@@ -2,7 +2,7 @@
 
 Code for the paper *A Diagnostic Framework for Minority-Class Lithofacies Classification: Three-Dataset Benchmark* (Benkhayal, Nicholson, Mohamed, Farag).
 
-The paper tests a calibrated single-model XGBoost baseline, four hybrid mechanisms, and a four-way diagnosis of underperforming classes on three public well-log datasets: SEG (Hugoton-Panoma), FORCE 2020, and Geolink.
+The paper tests a class-weighted single-model XGBoost baseline, four hybrid mechanisms, and a four-way diagnosis of underperforming classes on three public well-log datasets: SEG (Hugoton-Panoma), FORCE 2020, and Geolink.
 
 ## What is where
 
@@ -26,7 +26,7 @@ The paper tests a calibrated single-model XGBoost baseline, four hybrid mechanis
 | `code/make_paper_figures.py` | Figures 1, 3, 4, 5, 6 | Figs. 1, 3-6 |
 | `geolink/` | Notes and results from the Geolink survey, baseline, diagnosis and PEF test | n/a |
 
-Note on the rules scripts: the `mutual` column printed by `*_rules_kaggle.py` uses the first, fraction-based criterion (each class sends at least 20% of its samples to the other). The paper judges symmetry from counts instead (this was changed after the first result, as Section 2.3 states), so FORCE Sandstone/Shale is flagged there from the counts and not from the printed column. Logs of all runs are in `results/`.
+Note on the rules scripts: the `mutual` column printed by `*_rules_kaggle.py` uses the first, fraction-based criterion (each class sends at least 20% of its samples to the other). The paper judges symmetry from counts instead (this was changed after the first result, as Section 2.3 states), so FORCE Sandstone/Shale is flagged there from the counts and not from the printed column. Logs of all runs are in `results/`. The `*_uncertainty_*` and `*_rules_*` scripts read the LAS files in sorted order and group wells by name, so their cross-validation folds and row order differ from `geolink_baseline_kaggle.py`; their point estimates therefore differ slightly from the main baseline (the paper reports both and says which table uses which). The 36-well hold-out is the same set of wells in both.
 
 Note on FORCE: `force_final_pipeline.py` ends at the cell that inspects the leaderboard blind-set files. The cell that scores that blind set is not included in the script, so the FORCE blind-set numbers in the paper (Fig. 4, Fig. 5) come from a separate run of that step.
 
